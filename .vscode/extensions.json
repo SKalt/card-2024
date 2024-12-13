@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "editorconfig.editorconfig",
+        "svelte.svelte-vscode",
+        "timonwong.shellcheck",
+        "mads-hartmann.bash-ide-vscode",
+        "tamasfe.even-better-toml"
+    ]
+}
