@@ -1,25 +1,41 @@
-[tool.poetry]
+[project]
 name = "card-2024"
 version = "0.1.0"
 description = ""
-authors = ["Steven Kalt <kalt.steven@gmail.com>"]
+# authors = ["Steven Kalt <kalt.steven@gmail.com>"]
 license = "UNLICENSED"
 readme = "README.md"
-package-mode = false
+# package-mode = false
+requires-python = ">=3.12"
+dependencies = [
+    "autodistill>=0.1.29",
+    "autodistill-grounded-sam>=0.1.2",
+    "opencv-python>=4.10.0.84",
+    "roboflow>=1.1.49",
+    "scikit-learn>=1.6.0",
+    "supervision>=0.25.0",
+    "typer>=0.15.1",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-autodistill-grounded-sam = "^0.1.2"
-supervision = "^0.25.0"
-autodistill = "^0.1.29"
-opencv-python = "^4.10.0.84"
-scikit-learn = "^1.5.2"
-roboflow = "^1.1.49"
+[dependency-groups]
+dev = [
+    "mypy>=1.13.0",
+    "pre-commit>=4.0.1",
+    "ruff>=0.8.2",
+]
+
+# [tool.poetry.dependencies]
+# autodistill-grounded-sam = "^0.1.2"
+# supervision = "^0.25.0"
+# autodistill = "^0.1.29"
+# opencv-python = "^4.10.0.84"
+# scikit-learn = "^1.5.2"
+# roboflow = "^1.1.49"
 
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.8.2"
+# [tool.poetry.group.dev.dependencies]
+# ruff = "^0.8.2"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+# [build-system]
+# requires = ["poetry-core"]
+# build-backend = "poetry.core.masonry.api"
