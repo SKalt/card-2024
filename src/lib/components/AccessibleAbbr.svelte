@@ -1,0 +1,39 @@
+<script lang="ts">
+  import type { Snippet } from "svelte";
+
+  const { title, children }: { title: string; children: Snippet } = $props();
+</script>
+
+<abbr {title}>
+  {@render children()}
+</abbr>
+
+<style>
+  /* FIXME: make this a global style */
+  abbr[title] {
+    position: relative;
+
+    /* ensure consistent styling across browsers */
+    text-decoration: underline dotted;
+  }
+
+  abbr[title]:hover::after,
+  abbr[title]:focus::after {
+    content: attr(title);
+
+    /* position tooltip like the native one */
+    position: absolute;
+    left: 0;
+    bottom: -30px;
+    width: auto;
+    white-space: nowrap;
+
+    /* style tooltip */
+    background-color: #1e1e1e;
+    color: #fff;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
+    font-size: 14px;
+    padding: 3px 5px;
+  }
+</style>
