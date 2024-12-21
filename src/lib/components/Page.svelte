@@ -37,13 +37,19 @@
   } */
 
   /* phone */
-  @media (max-width: 1000px) {
+  @media (min-width: 800px) {
     * {
       --flex-direction: column;
     }
   }
+  @media (max-width: 800px) {
+    * {
+      --flex-direction: row;
+    }
+  }
   .container {
     display: flex;
+    justify-content: center;
     flex-direction: var(--flex-direction, row);
   }
 </style>

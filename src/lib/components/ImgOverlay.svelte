@@ -113,7 +113,7 @@
   /* tablet/desktop layout */
   @media (min-width: 800px) {
     .container {
-      width: var(--width, 80vw);
+      max-width: var(--width, 50vw);
     }
     .enhanced-img {
       max-height: var(--height, 100vh);
@@ -123,7 +123,7 @@
   /* phone layout */
   @media (max-width: 800px) {
     .container {
-      width: var(--width, 100vw);
+      max-width: var(--width, 100vw);
     }
     .enhanced-img {
       /* take up half the screen */
