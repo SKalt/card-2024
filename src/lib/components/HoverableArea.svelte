@@ -1,8 +1,7 @@
 <script lang="ts">
-  import type { Writable } from "svelte/store";
-  import { clear, drawShape } from "../utils";
-  import type { Coords } from "../utils";
-  import { getContext } from "svelte";
+  import type { Readable, Writable } from "svelte/store";
+  import { clear, drawShape, snake_case } from "../utils";
+  import { getContext, onMount, tick } from "svelte";
 
   const {
     setStyle,
@@ -15,31 +14,110 @@
     alt: string;
     coords: Array<[number, number]>;
   } = $props();
+
   let ratio: number = $state(1);
-  const ratioStore: Writable<number> = getContext("ratioStore");
-  let canvas: HTMLCanvasElement;
-  const canvasStore: Writable<HTMLCanvasElement> = getContext("canvasStore");
-  ratioStore.subscribe((r) => (ratio = r));
+  const ratioStore: Readable<number> = getContext("ratioStore");
+  let canvas: HTMLCanvasElement | null;
+  const canvasStore: Readable<HTMLCanvasElement | null> = getContext("canvasStore");
+  // ratioStore.subscribe((r) => {
+  //   ratio = r;
+  //   console.log({ received: ratio });
+  // });
+  let transformedCoords = $state(
+    coords.map((coord) => coord.map((n) => n / ratio) as [number, number]),
+  );
+  let strCoords = $state(transformedCoords.map((coord) => coord.join(",")).join(","));
+
+  ratioStore.subscribe((r) => {
+    ratio = r;
+    // console.log(href, "received", r);
+    transformedCoords = coords.map((coord) => coord.map((n) => n / ratio) as [number, number]);
+    strCoords = transformedCoords.map((coord) => coord.join(",")).join(",");
+  });
   canvasStore.subscribe((c) => (canvas = c));
 
   const handleMouseEnter = () => {
-    console.log({ ratio });
-    if (canvas) {
-      drawShape(canvas, transformedCoords, setStyle);
-    }
+    if (canvas) drawShape(canvas, transformedCoords, setStyle);
   };
   const handleMouseLeave = () => {
     if (canvas) clear(canvas);
   };
-  const transformedCoords = coords.map((coord) => coord.map((n) => n / ratio) as [number, number]);
-  const strCoords = transformedCoords.map((coord) => coord.join(",")).join(",");
+  let download = $state("");
+  let downloadUrl = $state("");
+  let done = $state(false);
+
+  const tempHandleClick = () => {
+    const ok = confirm("save as book or delete");
+    if (ok) {
+      const title = prompt("title");
+      if (!title) return;
+      const author = prompt("author");
+      const md = [
+        `---`,
+        `title: "${title}"`,
+        `author: "${author ?? ""}"`,
+        `shape: ${JSON.stringify(coords)}`,
+        `---`,
+      ]
+        .map((line) => line + "\n")
+        .join("");
+      downloadUrl = `data:application/octet-stream;base64,${btoa(md)}`;
+      download = snake_case(title) + ".md";
+      // const blob = new Blob([md], { type: "text/plain" });
+      // saveFile(blob);
+      // new Promise<string>((res) => {
+      //   const fr = new FileReader();
+      //   fr.onload = (e) => res(e.target!.result as any);
+      //   fr.readAsDataURL(blob);
+      // }).then((du: string) => (downloadUrl = du));
+      console.log("book: " + href);
+    } else {
+      console.log("delete: " + href);
+    }
+    done = true;
+  };
+  onMount(() => {
+    if (href == "#0_0") {
+      console.log(href);
+      const initialSplash = () => {
+        if (canvas) {
+          console.log(href, ratio);
+          const ctx = canvas.getContext("2d");
+          drawShape(canvas, transformedCoords, setStyle);
+          tick().then(() => drawShape(canvas!, transformedCoords, setStyle));
+          // if (!ctx) throw new Error("could not acquire context2d");
+          // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        } else {
+          console.log("no canvas; delaying", href);
+          tick().then(initialSplash);
+        }
+      };
+      initialSplash();
+    }
+  });
 </script>
 
-<area
-  shape="poly"
-  coords={strCoords}
-  {alt}
-  {href}
-  onmouseenter={handleMouseEnter}
-  onmouseleave={handleMouseLeave}
-/>
+{#if downloadUrl}
+  <div data-sveltekit-preload-data="false">
+    <a
+      {download}
+      href={downloadUrl}
+      onclick={() => (downloadUrl = "")}
+      style="position: absolute; top:0;"
+    >
+      Download
+    </a>
+  </div>
+{/if}
+{#if !done}
+  <area
+    shape="poly"
+    coords={strCoords}
+    {alt}
+    {href}
+    onmouseenter={handleMouseEnter}
+    onmouseleave={handleMouseLeave}
+    onclick={tempHandleClick}
+    data-ratio={ratio}
+  />
+{/if}

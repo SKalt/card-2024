@@ -2,27 +2,29 @@
   import type { Coords } from "../utils";
   import type { Picture } from "vite-imagetools";
 
-  import { onMount, getContext, setContext, type Snippet } from "svelte";
+  import { onMount, getContext, setContext, type Snippet, tick } from "svelte";
   import { writable } from "svelte/store";
 
-  const ratioStore = writable<number>(1);
-  setContext("ratioStore", ratioStore);
   const { mapId, picture, alt, children } = $props<{
     mapId: string;
     picture: Picture;
     alt: string;
     children?: Snippet;
   }>();
-  let canvas: HTMLCanvasElement;
-  const sharedContext = writable<HTMLCanvasElement | null>(null);
-  setContext("canvasStore", sharedContext);
-  let img: HTMLImageElement | undefined = $state();
-  let dbg: HTMLElement;
   let ratio: number = 1;
+  let canvas: HTMLCanvasElement | null = null;
+  let img: HTMLImageElement | null = null;
+
+  const ratioStore = writable(ratio);
+  setContext("ratioStore", ratioStore);
+
+  const canvasStore = writable<HTMLCanvasElement | null>(canvas);
+  setContext("canvasStore", canvasStore);
+
+  let dbg: HTMLElement;
 
   const handleResize = () => {
     setRatio(picture.img.w, img?.width || 1);
-    // alert(`resized to ${ratio}`);
     if (canvas) {
       canvas.width = img!.width;
       canvas.height = img!.height;
@@ -32,14 +34,22 @@
     dbg.textContent = (e.offsetX / ratio).toFixed(1) + "," + (e.offsetY / ratio).toFixed(1);
   };
   const setRatio = (pixelWidth: number, screenWidth: number) => {
-    console.log({ pixelWidth, screenWidth });
     ratio = pixelWidth / (screenWidth || 1); // FIXME: this is inverted
     ratioStore.set(ratio);
-    console.log(`set ratio to ${ratio}`);
+    console.log(`set ratio to ${ratio}`, { pixelWidth, screenWidth });
   };
   onMount(() => {
-    handleResize();
-    sharedContext.set(canvas);
+    const waitForImg = () => {
+      if (img) handleResize();
+      else tick().then(waitForImg);
+    };
+    waitForImg();
+
+    const waitForCanvas = () => {
+      if (canvas) canvasStore.set(canvas);
+      else tick().then(waitForCanvas);
+    };
+    waitForCanvas();
   });
 </script>
 
@@ -71,7 +81,7 @@
     margin: 0;
     padding: 0;
     display: inline-block;
-
+    position: relative;
     /* min-width: 1600px; */
   }
   span {
@@ -101,9 +111,9 @@
     left: 0;
   }
   /* tablet/desktop layout */
-  @media (min-width: 1000px) {
+  @media (min-width: 800px) {
     .container {
-      width: var(--width, 50vw);
+      width: var(--width, 80vw);
     }
     .enhanced-img {
       max-height: var(--height, 100vh);
@@ -111,7 +121,7 @@
   }
 
   /* phone layout */
-  @media (max-width: 1000px) {
+  @media (max-width: 800px) {
     .container {
       width: var(--width, 100vw);
     }
