@@ -20,7 +20,7 @@
   } */
 
   /* phone */
-  @media (max-width: 1000px) {
+  @media (max-width: 800px) {
     * {
       --flex-direction: column;
     }
