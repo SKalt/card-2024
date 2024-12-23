@@ -1,15 +1,25 @@
 <script lang="ts">
-  import type { Snippet } from "svelte";
+  import { setContext, type Snippet } from "svelte";
   import type { Picture } from "vite-imagetools";
   import ImgOverlay from "./ImgOverlay.svelte";
   import BookArea from "./BookArea.svelte";
   import type { Book } from "$lib/utils";
+  import { writable } from "svelte/store";
   const { picture, books, alt, side } = $props<{
     picture: Picture;
     alt: string;
     side?: Snippet;
     books: Array<Book>;
   }>();
+
+  // handle book reviews
+  let _sideState = $state(side ?? null);
+  const sideStore = writable<Snippet | null>(_sideState);
+
+  sideStore.subscribe((val) => {
+    _sideState = val ?? side ?? null;
+  });
+  const ctx = setContext("side", sideStore);
 </script>
 
 <div class="container">
