@@ -49,6 +49,11 @@ export default defineConfig({
             label: "Body",
             isBody: true,
           },
+          {
+            type: "boolean",
+            name: "recommended",
+            label: "Recommended",
+          }
         ],
       },
     ],

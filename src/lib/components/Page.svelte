@@ -13,13 +13,13 @@
   }>();
 
   // handle book reviews
-  let _sideState = $state(side ?? null);
-  const sideStore = writable<Snippet | null>(_sideState);
+  const sideStore = writable<Snippet | null>(side);
+  setContext("side", sideStore);
 
+  let _sideState = $state(side ?? null);
   sideStore.subscribe((val) => {
     _sideState = val ?? side ?? null;
   });
-  const ctx = setContext("side", sideStore);
 </script>
 
 <div class="container">
@@ -34,7 +34,7 @@
     {/each}
   </ImgOverlay>
   <div style="margin: .5em ">
-    {@render side?.()}
+    {@render _sideState?.()}
   </div>
 </div>
 
