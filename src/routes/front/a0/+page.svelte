@@ -1,15 +1,18 @@
 <script lang="ts">
   import Page from "$lib/components/Page.svelte";
-  const md = import.meta.glob("../../../../content/shelves/front/a0/*.md", { eager: true });
+  const md = import.meta.glob<
+    true,
+    string,
+    {
+      attributes: { title: string; author: string; shape: Coords; recommended?: boolean };
+      html: string;
+    }
+  >("../../../../content/shelves/front/a0/*.md", { eager: true });
   import picture from "../../../../img/cropped/front/a0.jpg?enhanced";
   import _shapes from "../../../../content/shelves/front/a0.json";
   import type { Book, Coords } from "$lib/utils";
   const alt = "Math & Language Textbooks";
-  const books: Book[] = Object.values(md).map((book, i) => {
-    let b = book as {
-      attributes: { title: string; author: string; shape: Coords; recommended?: boolean };
-      html: string;
-    };
+  const books: Book[] = Object.values(md).map((b) => {
     return {
       title: b.attributes.title,
       author: b.attributes.author,

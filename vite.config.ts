@@ -1,5 +1,5 @@
 import { sveltekit } from "@sveltejs/kit/vite";
-import { defineConfig } from "vite";
+import { defineConfig, type PluginOption } from "vite";
 import { enhancedImages } from "@sveltejs/enhanced-img";
 import { plugin as mdPlugin, Mode } from "vite-plugin-markdown";
 

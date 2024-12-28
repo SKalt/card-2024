@@ -20,10 +20,10 @@
   const href = `#${snake_case(title)}`;
   const alt = `${title} by ${author}`;
   const setStyle = recommended ? recommendedStyle : defaultStyle;
-  const ctx: Writable<Snippet> = getContext("side");
+
+  const sideStore: Writable<Snippet | null> = getContext("side");
   const onclick = () => {
-    ctx.set(side);
-    console.log("set", html);
+    sideStore.set(side);
   };
 </script>
 

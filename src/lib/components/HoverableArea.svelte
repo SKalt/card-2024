@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import { clear, type Coords, drawShape, snake_case } from "../utils";
-  import { getContext, onMount, tick } from "svelte";
+  import { clear, type Coords, drawShape } from "../utils";
+  import { getContext, onMount, tick, type Snippet } from "svelte";
 
   const {
     setStyle,
@@ -14,7 +14,7 @@
     href: string;
     alt: string;
     coords: Array<[number, number]>;
-    onclick?: (e: MouseEvent) => void;
+    onclick: (e: MouseEvent) => void;
   } = $props();
 
   let ratio: number = $state(1);
@@ -25,7 +25,7 @@
   //   ratio = r;
   //   console.log({ received: ratio });
   // });
-  let transformedCoords = $state<Coords>(
+  let transformedCoords = $state(
     coords.map((coord) => coord.map((n) => n / ratio) as [number, number]),
   );
   let strCoords = $state(transformedCoords.map((coord) => coord.join(",")).join(","));
@@ -38,46 +38,47 @@
   });
   canvasStore.subscribe((c) => (canvas = c));
 
-  const handleMouseEnter = () => {
+  const onmouseenter = () => {
     if (canvas) drawShape(canvas, transformedCoords, setStyle);
   };
-  const handleMouseLeave = () => {
+  const onmouseleave = () => {
     if (canvas) clear(canvas);
   };
   let download = $state("");
   let downloadUrl = $state("");
   let done = $state(false);
+  // const sideStore: Writable<Snippet | null> = getContext("side");
 
-  const tempHandleClick = () => {
-    const ok = confirm("save as book or delete");
-    if (ok) {
-      const title = prompt("title");
-      if (!title) return;
-      const author = prompt("author");
-      const md = [
-        `---`,
-        `title: "${title}"`,
-        `author: "${author ?? ""}"`,
-        `shape: ${JSON.stringify(coords)}`,
-        `---`,
-      ]
-        .map((line) => line + "\n")
-        .join("");
-      downloadUrl = `data:application/octet-stream;base64,${btoa(md)}`;
-      download = snake_case(title) + ".md";
-      // const blob = new Blob([md], { type: "text/plain" });
-      // saveFile(blob);
-      // new Promise<string>((res) => {
-      //   const fr = new FileReader();
-      //   fr.onload = (e) => res(e.target!.result as any);
-      //   fr.readAsDataURL(blob);
-      // }).then((du: string) => (downloadUrl = du));
-      console.log("book: " + href);
-    } else {
-      console.log("delete: " + href);
-    }
-    done = true;
-  };
+  // const tempHandleClick = () => {
+  //   const ok = confirm("save as book or delete");
+  //   if (ok) {
+  //     const title = prompt("title");
+  //     if (!title) return;
+  //     const author = prompt("author");
+  //     const md = [
+  //       `---`,
+  //       `title: "${title}"`,
+  //       `author: "${author ?? ""}"`,
+  //       `shape: ${JSON.stringify(coords)}`,
+  //       `---`,
+  //     ]
+  //       .map((line) => line + "\n")
+  //       .join("");
+  //     downloadUrl = `data:application/octet-stream;base64,${btoa(md)}`;
+  //     download = snake_case(title) + ".md";
+  //     // const blob = new Blob([md], { type: "text/plain" });
+  //     // saveFile(blob);
+  //     // new Promise<string>((res) => {
+  //     //   const fr = new FileReader();
+  //     //   fr.onload = (e) => res(e.target!.result as any);
+  //     //   fr.readAsDataURL(blob);
+  //     // }).then((du: string) => (downloadUrl = du));
+  //     console.log("book: " + href);
+  //   } else {
+  //     console.log("delete: " + href);
+  //   }
+  //   done = true;
+  // };
   onMount(() => {
     if (href == "#0_0") {
       console.log(href);
@@ -117,8 +118,8 @@
     coords={strCoords}
     {alt}
     {href}
-    onmouseenter={handleMouseEnter}
-    onmouseleave={handleMouseLeave}
+    {onmouseenter}
+    {onmouseleave}
     {onclick}
     data-ratio={ratio}
   />

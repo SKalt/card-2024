@@ -1,4 +1,6 @@
 <script lang="ts">
+  const _ = import.meta.glob("../../../../content/back/a0/*.md", { eager: true });
+  console.log(_);
   import Page from "$lib/components/Page.svelte";
   // import ImgOverlay from "$lib/components/ImgOverlay.svelte";
   import picture from "../../../../img/cropped/back/a0.jpg?enhanced";
