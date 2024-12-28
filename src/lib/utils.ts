@@ -6,14 +6,15 @@ export type Book = {
   author?: string;
   coords: Coords;
   recommended?: boolean;
-  component?: any;
+  html?: string;
+  // FIXME: update model w/ more fields
 };
 
 export const snake_case = (input: string) =>
   input
+    .toLowerCase()
     .replace("'", "")
     .split(/[^0-9a-zA-Z]+/g)
-    .map((s) => s.toLowerCase())
     .join("_");
 
 export const drawShape = (

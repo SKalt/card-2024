@@ -36,7 +36,7 @@
   const setRatio = (pixelWidth: number, screenWidth: number) => {
     ratio = pixelWidth / (screenWidth || 1); // FIXME: this is inverted
     ratioStore.set(ratio);
-    console.log(`set ratio to ${ratio}`, { pixelWidth, screenWidth });
+    // console.log(`set ratio to ${ratio}`, { pixelWidth, screenWidth });
   };
   onMount(() => {
     const waitForImg = () => {

@@ -101,3 +101,8 @@ for img_file in tqdm(todo):
 #     # assert segments[0] == max(*segments)
 # %%
 # note: can't assume which segment of polygon is the actual spine
+
+# %%
+# process_image(image_dir / "overall" / "shelf.jpg")
+
+# %%

@@ -5,7 +5,12 @@
   import BookArea from "./BookArea.svelte";
   import type { Book } from "$lib/utils";
   import { writable } from "svelte/store";
-  const { picture, books, alt, side } = $props<{
+  const {
+    picture,
+    books,
+    alt,
+    side = null,
+  } = $props<{
     picture: Picture;
     alt: string;
     side?: Snippet;
@@ -13,13 +18,10 @@
   }>();
 
   // handle book reviews
+  const sideStore = writable<Snippet | null>(side);
+  setContext("side", sideStore);
   let _sideState = $state(side ?? null);
-  const sideStore = writable<Snippet | null>(_sideState);
-
-  sideStore.subscribe((val) => {
-    _sideState = val ?? side ?? null;
-  });
-  const ctx = setContext("side", sideStore);
+  sideStore.subscribe((val) => (_sideState = val ?? side ?? null));
 </script>
 
 <div class="container">
@@ -30,11 +32,15 @@
         recommended={book.recommended}
         author={book.author}
         coords={book.coords}
+        html={book.html}
       ></BookArea>
     {/each}
   </ImgOverlay>
-  <div style="margin: .5em ">
-    {@render side?.()}
+  <div class="sidebar" style="margin: .5em ">
+    {#if _sideState !== side}
+      <button onclick={() => sideStore.set(side)}>close</button>
+    {/if}
+    {@render _sideState?.()}
   </div>
 </div>
 
@@ -49,17 +55,20 @@
   /* phone */
   @media (min-width: 800px) {
     * {
-      --flex-direction: column;
+      --flex-direction: row;
     }
   }
   @media (max-width: 800px) {
     * {
-      --flex-direction: row;
+      --flex-direction: column;
     }
   }
   .container {
     display: flex;
     justify-content: center;
     flex-direction: var(--flex-direction, row);
+  }
+  .container > * {
+    flex: 1;
   }
 </style>

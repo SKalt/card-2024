@@ -2,7 +2,7 @@
   import Page from "$lib/components/Page.svelte";
   // import ImgOverlay from "$lib/components/ImgOverlay.svelte";
   import picture from "../../../../img/cropped/back/b3.jpg?enhanced";
-  import _shapes from "../../../../content/back/b3.json";
+  import _shapes from "../../../../content/shelves/back/b3.json";
   import type { Book, Coords } from "$lib/utils";
   const alt = "Discworld books";
   const books: Book[] = _shapes

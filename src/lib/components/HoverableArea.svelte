@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Readable, Writable } from "svelte/store";
-  import { clear, drawShape, snake_case } from "../utils";
+  import type { Readable } from "svelte/store";
+  import { clear, type Coords, drawShape, snake_case } from "../utils";
   import { getContext, onMount, tick } from "svelte";
 
   const {
@@ -8,11 +8,13 @@
     href = "",
     alt = "",
     coords = [],
+    onclick = () => {},
   }: {
     setStyle: (ctx: CanvasRenderingContext2D) => void;
     href: string;
     alt: string;
     coords: Array<[number, number]>;
+    onclick?: (e: MouseEvent) => void;
   } = $props();
 
   let ratio: number = $state(1);
@@ -23,7 +25,7 @@
   //   ratio = r;
   //   console.log({ received: ratio });
   // });
-  let transformedCoords = $state(
+  let transformedCoords = $state<Coords>(
     coords.map((coord) => coord.map((n) => n / ratio) as [number, number]),
   );
   let strCoords = $state(transformedCoords.map((coord) => coord.join(",")).join(","));
@@ -117,7 +119,7 @@
     {href}
     onmouseenter={handleMouseEnter}
     onmouseleave={handleMouseLeave}
-    onclick={tempHandleClick}
+    {onclick}
     data-ratio={ratio}
   />
 {/if}

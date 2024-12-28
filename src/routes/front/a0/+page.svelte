@@ -1,27 +1,24 @@
 <script lang="ts">
   import Page from "$lib/components/Page.svelte";
-  // import ImgOverlay from "$lib/components/ImgOverlay.svelte";
+  const md = import.meta.glob("../../../../content/shelves/front/a0/*.md", { eager: true });
   import picture from "../../../../img/cropped/front/a0.jpg?enhanced";
-  import _shapes from "../../../../content/front/a0.json";
+  import _shapes from "../../../../content/shelves/front/a0.json";
   import type { Book, Coords } from "$lib/utils";
-  const alt = "Discworld books";
-  const books: Book[] = _shapes
-    .map((multiPoly, i) =>
-      multiPoly
-        .map(
-          (poly, j): Book => ({
-            title: `${i}/${j}`,
-            author: "???",
-            coords: poly as Coords,
-            recommended: false,
-          }),
-        )
-        .reduce((a: Book[], r) => {
-          a.push(r);
-          return a;
-        }, []),
-    )
-    .reduce((a: Book[], r) => a.concat(r), []);
+  const alt = "Math & Language Textbooks";
+  const books: Book[] = Object.values(md).map((book, i) => {
+    let b = book as {
+      attributes: { title: string; author: string; shape: Coords; recommended?: boolean };
+      html: string;
+    };
+    return {
+      title: b.attributes.title,
+      author: b.attributes.author,
+      coords: b.attributes.shape,
+      recommended: b.attributes.recommended ?? false,
+      html: b.html,
+    };
+  });
+  console.log(books);
 </script>
 
 <Page {picture} {alt} {books}></Page>

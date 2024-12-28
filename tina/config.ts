@@ -26,29 +26,79 @@ export default defineConfig({
   schema: {
     collections: [
       {
-        name: "post",
-        label: "Posts",
-        path: "content",
+        name: "book",
+        label: "Books",
+        path: "content/shelves",
         fields: [
           {
-            type: "string",
             name: "title",
+            type: "string",
             label: "Title",
             isTitle: true,
             required: true,
           },
           {
-            type: "string",
             name: "author",
+            type: "string",
             label: "Author",
             required: true,
           },
           {
-            type: "rich-text",
+            name: "series",
+            label: "Series",
+            type: "reference",
+            collections: ["series"],
+          },
+          // {
+          //   // TODO: GoodReads? StoryGraph? ISBN?
+          //   name: "",
+          //   label: "",
+          // },
+          {
             name: "body",
+            type: "rich-text",
             label: "Body",
             isBody: true,
           },
+        ],
+      },
+      {
+        name: "author",
+        label: "Author",
+        path: "content/authors",
+        fields: [
+          {
+            name: "name",
+            type: "string",
+            label: "Name",
+            isTitle: true,
+            required: true,
+          },
+          {
+            name: "bio",
+            type: "string",
+            label: "Bio",
+          },
+        ],
+      },
+      {
+        name: "series",
+        label: "Series",
+        path: "content/series",
+        fields: [
+          {
+            name: "title",
+            type: "string",
+            label: "Title",
+            isTitle: true,
+            required: true,
+          },
+          // {
+          //   name: "books",
+          //   type: "reference",
+          //   label: "Books",
+          //   collections: ["book"],
+          // },
         ],
       },
     ],
