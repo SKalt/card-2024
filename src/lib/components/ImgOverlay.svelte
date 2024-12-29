@@ -2,8 +2,8 @@
   import type { Coords } from "../utils";
   import type { Picture } from "vite-imagetools";
 
-  import { onMount, getContext, setContext, type Snippet, tick } from "svelte";
-  import { writable } from "svelte/store";
+  import { onMount, getContext, setContext, type Snippet, tick, hasContext } from "svelte";
+  import { writable, type Writable } from "svelte/store";
 
   const { mapId, picture, alt, children } = $props<{
     mapId: string;
@@ -14,6 +14,7 @@
   let ratio: number = 1;
   let canvas: HTMLCanvasElement | null = null;
   let img: HTMLImageElement | null = null;
+  let container: HTMLDivElement | null = null;
 
   const ratioStore = writable(ratio);
   setContext("ratioStore", ratioStore);
@@ -21,13 +22,43 @@
   const canvasStore = writable<HTMLCanvasElement | null>(canvas);
   setContext("canvasStore", canvasStore);
 
-  let dbg: HTMLElement;
+  if (hasContext("pageCanvas")) {
+    const parentCanvasStore: Writable<HTMLCanvasElement | null> = getContext("pageCanvas");
+    canvasStore.subscribe((v) => parentCanvasStore.set(v));
+  }
+  if (hasContext("pageRatio")) {
+    const parentRatioStore: Writable<number> = getContext("pageRatio");
+    ratioStore.subscribe((v) => parentRatioStore.set(v));
+  }
 
+  let dbg: HTMLElement;
+  let hasHorizontalScrollbar = $state(false);
+  let hasVerticalScrollbar = $state(false);
+  let canScrollLeft = $state(false);
+  let canScrollRight = $state(false);
+
+  const onscroll = () => {
+    if (!container) throw new Error("img not found");
+    if (hasHorizontalScrollbar) {
+      canScrollLeft = container.scrollLeft != 0;
+      canScrollRight = container.scrollLeft + container.clientWidth < container.scrollWidth;
+    }
+  };
   const handleResize = () => {
     setRatio(picture.img.w, img?.width || 1);
     if (canvas) {
       canvas.width = img!.width;
       canvas.height = img!.height;
+    }
+    if (container) {
+      if (container.scrollWidth > container.clientWidth) {
+        hasHorizontalScrollbar = true;
+        hasVerticalScrollbar = false;
+      } else if (container.scrollHeight > container.clientHeight) {
+        hasHorizontalScrollbar = false;
+        hasVerticalScrollbar = true;
+      }
+      onscroll();
     }
   };
   const debugMousePosition = (e: MouseEvent) => {
@@ -55,7 +86,13 @@
 
 <svelte:window on:resize={handleResize} />
 
-<div class="container">
+<div
+  class="container"
+  bind:this={container}
+  data-left={canScrollLeft}
+  data-right={canScrollRight}
+  {onscroll}
+>
   <map name={mapId}>
     {@render children?.()}
   </map>
@@ -63,6 +100,7 @@
     class="enhanced-img"
     src={picture}
     {alt}
+    title={alt}
     usemap="#{mapId}"
     onload={handleResize}
     onresize={handleResize}
@@ -76,13 +114,33 @@
 </div>
 
 <style>
-  div.container {
+  .container {
+    --border-width: 0.25em;
     overflow: scroll;
-    margin: 0;
+    margin: 0 var(--border-width) 0 var(--border-width);
     padding: 0;
     display: inline-block;
     position: relative;
-    /* min-width: 1600px; */
+  }
+  /* .container::after,
+  .container::before {
+    content: " ";
+    font-family: monospace;
+  }
+  .container[data-right="true"]::after {
+    content: ">";
+  }
+  .container[data-left="true"]::before {
+    content: "<";
+  }
+  */
+  .container[data-right="true"] {
+    margin-right: 0;
+    border-right: var(--border-width) dotted;
+  }
+  .container[data-left="true"] {
+    margin-left: 0;
+    border-left: var(--border-width) dotted;
   }
   span {
     display: none;

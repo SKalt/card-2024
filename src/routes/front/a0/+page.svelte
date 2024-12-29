@@ -8,10 +8,6 @@
       html: string;
     }
   >("../../../../content/shelves/front/a0/*.md", { eager: true });
-  import picture from "../../../../img/cropped/front/a0.jpg?enhanced";
-  import _shapes from "../../../../content/shelves/front/a0.json";
-  import type { Book, Coords } from "$lib/utils";
-  const alt = "Math & Language Textbooks";
   const books: Book[] = Object.values(md).map((b) => {
     return {
       title: b.attributes.title,
@@ -21,7 +17,14 @@
       html: b.html,
     };
   });
-  console.log(books);
+  const _shapes = import.meta.glob<true, string, { title: string; href: string; shape: Coords }>(
+    "../../../../content/shelves/front/a0/*.json",
+    { eager: true },
+  );
+  const externalShapes = Object.values(_shapes);
+  import picture from "../../../../img/cropped/front/a0.jpg?enhanced";
+  import type { Book, Coords } from "$lib/utils";
+  const alt = "Math & Language Textbooks";
 </script>
 
-<Page {picture} {alt} {books}></Page>
+<Page {picture} {alt} {books} {externalShapes}></Page>

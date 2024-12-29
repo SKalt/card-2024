@@ -3,6 +3,7 @@ export type Coords = Array<Coordinate>;
 
 export type Book = {
   title: string;
+  // TODO: slugify title
   author?: string;
   coords: Coords;
   recommended?: boolean;
@@ -31,10 +32,15 @@ export const drawShape = (
   if (!first) throw new Error("No coordinates in shape");
   const [x, y] = first;
   ctx.moveTo(x, y);
+  // ctx.fillStyle = "red";
+  // ctx.fillRect(x, y, 4, 4);
   ctx.beginPath();
   while (coords.length) {
     let [x, y] = coords.pop()!;
     ctx.lineTo(x, y);
+    // ctx.moveTo(x, y);
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(x, y, 4, 4);
   }
   ctx.lineTo(x, y);
   ctx.closePath();

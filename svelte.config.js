@@ -15,8 +15,8 @@ const config = {
     adapter: adapter(),
   },
 
-  extensions: [".svelte", ".svx"],
-  compilerOptions: {},
+  extensions: [".svelte"],
+  compilerOptions: { runes: true },
 };
 
 export default config;
