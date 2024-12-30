@@ -3,25 +3,13 @@
   // import ImgOverlay from "$lib/components/ImgOverlay.svelte";
   import picture from "../../../img/cropped/childrens/index.jpg?enhanced";
   import type { Book, Coords } from "$lib/utils";
-  const _shapes: Coords[][] = [];
-  const alt = "Discworld books";
-  const books: Book[] = _shapes
-    .map((multiPoly, i) =>
-      multiPoly
-        .map(
-          (poly, j): Book => ({
-            title: `${i}/${j}`,
-            author: "???",
-            coords: poly as Coords,
-            recommended: false,
-          }),
-        )
-        .reduce((a: Book[], r) => {
-          a.push(r);
-          return a;
-        }, []),
-    )
-    .reduce((a: Book[], r) => a.concat(r), []);
+  const alt = "Childrens' literature";
+  const externalShapes = Object.values(
+    import.meta.glob<true, string, { title: string; href: string; shape: Coords }>(
+      "../../../content/shelves/childrens/index/*.json",
+      { eager: true },
+    ),
+  );
 </script>
 
-<Page {picture} {alt} {books}></Page>
+<Page {picture} {alt} books={[]} {externalShapes}></Page>

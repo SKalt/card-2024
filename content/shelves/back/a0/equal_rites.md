@@ -130,6 +130,6 @@ shape:
     - 1341
 title: Equal Rites
 author: Terry Pratchett
+series: ''
 ---
 
-Hello there

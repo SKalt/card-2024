@@ -1,19 +1,22 @@
 <script lang="ts">
   import type { Coords } from "$lib/utils";
+  import type { Writable } from "svelte/store";
 
   // note: ratio and other image-context-related info need to be props since this
   // component may be used in a snippet that isn't a descendant of the ImgOverlay.
   const {
-    coords,
+    shapeStore,
     ratio,
     canvas,
   }: {
-    coords: Coords;
+    shapeStore: Writable<Coords>;
     ratio: number;
     canvas: HTMLCanvasElement | null;
   } = $props();
   type EditMode = "none" | "select" | "move" | "del";
 
+  let mutable: Coords = $state([]);
+  shapeStore.subscribe((s) => (mutable = s));
   let cursor = $state<[number, number]>([0, 0]); // in transformed coordinates
   let nearest = $state<number | null>(null);
   let selected = $state<number | null>(null);
@@ -105,19 +108,20 @@
     }
     mode = m;
   };
-  let mutable = $state(coords);
 </script>
 
 <div>
   {#if mode == "none"}
-    <button disabled={canvas === null} onclick={() => setMode("move")}>edit</button>
+    <button disabled={canvas === null} onclick={() => setMode("move")}>edit shape</button>
   {:else}
     <button
       onclick={() => {
         setMode("none");
         console.log(JSON.stringify(mutable));
-      }}>done</button
+      }}
     >
+      done
+    </button>
   {/if}
   {#if mode == "move"}
     <button>delete point</button>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Readable, Writable } from "svelte/store";
+  import { writable, type Readable, type Writable } from "svelte/store";
   import { clear, type Coords, drawShape } from "../utils";
   import { getContext, hasContext, onMount, tick, type Snippet } from "svelte";
   import ShapeEditor from "./ShapeEditor.svelte";
@@ -8,7 +8,7 @@
     setStyle,
     href = "",
     alt = "",
-    coords = [],
+    coords: initialCoords = [],
     onclick = () => {},
   }: {
     setStyle: (ctx: CanvasRenderingContext2D) => void;
@@ -23,14 +23,13 @@
   let canvas: HTMLCanvasElement | null = $state(null);
   const canvasStore: Readable<HTMLCanvasElement | null> = getContext("canvasStore");
 
-  let transformedCoords = $state(coords);
-  let strCoords = $state(coords.map((coord) => coord.join(",")).join(","));
+  let coords = $state([...initialCoords]);
+  let transformedCoords = $derived(
+    coords.map((coord) => coord.map((n) => n / ratio) as [number, number]),
+  );
+  let strCoords = $derived(transformedCoords.map((coord) => coord.join(",")).join(","));
 
-  ratioStore.subscribe((r) => {
-    ratio = r;
-    transformedCoords = coords.map((coord) => coord.map((n) => n / ratio) as [number, number]);
-    strCoords = transformedCoords.map((coord) => coord.join(",")).join(",");
-  });
+  ratioStore.subscribe((r) => (ratio = r));
   canvasStore.subscribe((c) => (canvas = c));
 
   const onmouseenter = () => {
@@ -39,6 +38,8 @@
   const onmouseleave = () => {
     if (canvas) clear(canvas);
   };
+  const shapeStore = writable<Coords>(initialCoords);
+  shapeStore.subscribe((s) => (coords = s));
 
   const sideStore: Writable<Snippet | null> | undefined = getContext("side");
   const y = side;
@@ -51,7 +52,7 @@
 </script>
 
 {#snippet side()}
-  <ShapeEditor {coords} {ratio} {canvas} />
+  <ShapeEditor {shapeStore} {ratio} {canvas} />
 {/snippet}
 
 <area

@@ -59,22 +59,22 @@
       />
     {/each}
     {#each externalShapes as { shape, title, href }}
-      {#if !href}
-        <ExternalShapeEditor coords={shape} {title} {href} />
-      {:else}
-        <HoverableArea
-          setStyle={defaultStyle}
-          coords={shape}
-          {href}
-          alt={title}
-          onclick={() => {}}
-        />
-      {/if}
+      <HoverableArea
+        setStyle={defaultStyle}
+        coords={shape}
+        href={href || "#TODO"}
+        alt={title}
+        onclick={() => {
+          if (!href) {
+            // edit this
+          }
+        }}
+      />
     {/each}
   </ImgOverlay>
   <div class="sidebar" style="margin: 1em ">
-    <!-- TODO: adder -->
     <ShapeAdder {canvas} {ratio} />
+    <!-- TODO: shape editor -->
     {#if _sideState !== side}
       <button
         onclick={() => {

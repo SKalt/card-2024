@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Coordinate, Coords } from "$lib/utils";
+  import { snake_case, type Coordinate, type Coords } from "$lib/utils";
 
   const { canvas = null, ratio }: { canvas: HTMLCanvasElement | null; ratio: number } = $props();
   let mutable = $state<Coords>([]);
@@ -9,9 +9,25 @@
     | "done"; // => adding
   let mode = $state<Mode>("none");
   let cursor = $state<Coordinate>([0, 0]);
-  let href = $state("/");
-  let author = $state("");
+  let title = $state("");
+  let shelf = $state("");
+  let slug = $derived(title ? snake_case(title) : shelf.split("/").slice(-1)[0]);
+  let href = $derived(`${shelf}#${slug}`);
   let description = $state("");
+
+  let download = $derived.by(() => (description ? `${slug}.md` : `${slug}.json`));
+
+  const shelves = ["front", "back"]
+    .map((side) =>
+      ["a", "b"].map((col) => Array.from({ length: 4 }, (_, i) => `/${side}/${col}${i}`)),
+    )
+    .flat(4)
+    .concat(
+      ["nonfiction", "childrens"]
+        .map((shelf) => ["top", "middle", "bottom"].map((lvl) => `/${shelf}/${lvl}`))
+        .flat(2),
+    );
+  let author = $state("");
   let value = $derived.by(() => {
     if (!description) {
       return JSON.stringify({ shape: "SHAPE", href }, null, 2).replace(
@@ -22,6 +38,7 @@
       return `---\nshape: ${JSON.stringify(mutable)}\nauthor: ${author}\nhref: ${href}\n---\n${description}`;
     }
   });
+  let downloadUrl = $derived(`data:application/octet-stream;base64,${btoa(value)}`);
   // const debounce = (fn: Function, ms: number) => {
   //   let timeout: NodeJS.Timeout;
   //   return function (this: any, ...args: any[]) {
@@ -61,10 +78,10 @@
       }
     }
   };
-  let toCopy: HTMLTextAreaElement;
+  let toCopy: HTMLTextAreaElement | null = $state(null);
 
   const doCopy = () => {
-    toCopy.select();
+    toCopy!.select();
     document.execCommand("copy");
   };
   const onmousemove = (e: MouseEvent) => {
@@ -112,7 +129,6 @@
       mutable = [];
       author = "";
       description = "";
-      href = "/";
       setState("adding"); // temp
     }
   };
@@ -125,8 +141,13 @@
 {/if}
 {#if mode === "adding" || mode === "done"}
   <div>
-    <label for="href">href</label><input name="href" bind:value={href} />
     <label for="author">author</label><input name="author" bind:value={author} />
+    <label for="title">title</label><input name="title" bind:value={title} />
+    <select bind:value={shelf}>
+      {#each shelves as shelf}
+        <option value={shelf}>{shelf}</option>
+      {/each}
+    </select>
     <label for="description">description</label><textarea
       name="description"
       bind:value={description}
@@ -134,11 +155,13 @@
     <textarea bind:this={toCopy} style="font-family: monospace" onfocus={doCopy} onclick={doCopy}
       >{value}</textarea
     >
+
     {#if mode === "adding"}
       <button onclick={() => setState("done")}> Edit properties </button>
     {:else}
       <button onclick={() => setState("none")}> Done </button>
     {/if}
+    <a {download} href={downloadUrl}>download</a>
   </div>
 {/if}
 

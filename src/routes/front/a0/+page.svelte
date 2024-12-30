@@ -17,11 +17,12 @@
       html: b.html,
     };
   });
-  const _shapes = import.meta.glob<true, string, { title: string; href: string; shape: Coords }>(
-    "../../../../content/shelves/front/a0/*.json",
-    { eager: true },
+  const externalShapes = Object.values(
+    import.meta.glob<true, string, { title: string; href: string; shape: Coords }>(
+      "../../../../content/shelves/front/a0/*.json",
+      { eager: true },
+    ),
   );
-  const externalShapes = Object.values(_shapes);
   import picture from "../../../../img/cropped/front/a0.jpg?enhanced";
   import type { Book, Coords } from "$lib/utils";
   const alt = "Math & Language Textbooks";

@@ -3,7 +3,7 @@
   import { snake_case, defaultStyle, recommendedStyle, type Coords } from "../utils";
 
   import HoverableArea from "./HoverableArea.svelte";
-  import type { Readable, Writable } from "svelte/store";
+  import { writable, type Readable, type Writable } from "svelte/store";
   import { pushState } from "$app/navigation";
   import ShapeEditor from "./ShapeEditor.svelte";
   let {
@@ -46,13 +46,15 @@
     pageTitle.set(title);
   };
   onMount(() => checkFocus());
+  const shapeStore = writable<Coords>(coords);
+  shapeStore.subscribe((s) => (coords = s)); // ????
 </script>
 
 <svelte:window on:hashchange={checkFocus} />
 
 {#snippet side()}
   <div>
-    <ShapeEditor {coords} {ratio} {canvas} />
+    <ShapeEditor {shapeStore} {ratio} {canvas} />
     <!-- TODO: editor button -->
     <h1>{title}</h1>
     <p>{author}</p>
