@@ -9,6 +9,7 @@
   import { pushState } from "$app/navigation";
   import ExternalShapeEditor from "./ExternalShapeEditor.svelte";
   import ShapeAdder from "./ShapeAdder.svelte";
+  import HamburgerNav from "./HamburgerNav.svelte";
   const {
     picture,
     books,
@@ -73,6 +74,7 @@
     {/each}
   </ImgOverlay>
   <div class="sidebar" style="margin: 1em ">
+    <HamburgerNav />
     <ShapeAdder {canvas} {ratio} />
     <!-- TODO: shape editor -->
     {#if _sideState !== side}
@@ -101,16 +103,25 @@
     * {
       --flex-direction: row;
     }
+    .sidebar {
+      max-height: 100vh;
+    }
   }
   @media (max-width: 800px) {
     * {
       --flex-direction: column;
+    }
+    .sidebar {
+      max-height: 50vh;
     }
   }
   .container {
     display: flex;
     justify-content: center;
     flex-direction: var(--flex-direction, row);
+  }
+  .sidebar {
+    overflow: scroll;
   }
   .container > * {
     flex: 1;

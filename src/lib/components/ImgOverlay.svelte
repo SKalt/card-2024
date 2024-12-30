@@ -13,7 +13,7 @@
   }>();
   let ratio: number = 1;
   let canvas: HTMLCanvasElement | null = null;
-  let img: HTMLImageElement | null = null;
+  let img: HTMLImageElement | null = $state(null);
   let container: HTMLDivElement | null = null;
 
   const ratioStore = writable(ratio);
@@ -171,7 +171,7 @@
   /* tablet/desktop layout */
   @media (min-width: 800px) {
     .container {
-      max-width: var(--width, 50vw);
+      max-width: var(--width, 50vw); /* FIXME: define --width*/
     }
     .enhanced-img {
       max-height: var(--height, 100vh);

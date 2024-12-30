@@ -1,62 +1,98 @@
 <script lang="ts">
-  let open = false;
-  export let right: string = "";
-  export let left: string = "";
-  export let up: string = "";
-  export let down: string = "";
-  const toggle = () => {
-    open = !open;
-    window.history.replaceState(
-      "",
-      document.title,
-      window.location.pathname + window.location.search
-    );
-  };
+  const shelves: Shelf[] = [
+    { title: "Index", href: "/" },
+    { title: "Classics", href: "/classics" },
+    {
+      title: "Nonfiction",
+      href: "/nonfiction",
+      children: [
+        { title: "TODO", href: "/nonfiction/top" },
+        { title: "TODO", href: "/nonfiction/middle" },
+        { title: "TODO", href: "/nonfiction/bottom" },
+      ],
+    },
+    {
+      title: "Back",
+      children: [
+        { title: "TODO", href: "/back/a0" },
+        { title: "TODO", href: "/back/a1" },
+        { title: "TODO", href: "/back/a2" },
+        { title: "TODO", href: "/back/a3" },
+        { title: "TODO", href: "/back/b0" },
+        { title: "TODO", href: "/back/b1" },
+        { title: "TODO", href: "/back/b2" },
+        { title: "TODO", href: "/back/b3" },
+      ],
+    },
+    {
+      title: "Front",
+      children: [
+        { title: "TODO", href: "/front/a0" },
+        { title: "TODO", href: "/front/a1" },
+        { title: "TODO", href: "/front/a2" },
+        { title: "TODO", href: "/front/a3" },
+        { title: "TODO", href: "/front/b0" },
+        { title: "TODO", href: "/front/b1" },
+        { title: "TODO", href: "/front/b2" },
+        { title: "TODO", href: "/front/b3" },
+      ],
+    },
+    { title: "Overall", href: "/" },
+    {
+      title: "Children's Literature",
+      href: "/childrens",
+      children: [
+        { title: "top", href: "/childrens/top" },
+        { title: "Harry Potter", href: "/childrens/middle" },
+        { title: "bottom", href: "/childrens/bottom" },
+      ],
+    },
+  ];
+
+  type Shelf = { title: string; href?: string; children?: Shelf[] };
 </script>
 
-<div class:open>
-  <!-- the hamburger: toggles the menu -->
-  <button on:click={toggle}>
-    {#if open}
-      &times;
-    {:else}
-      &equiv;
+{#snippet shelf({ href, title, children }: Shelf)}
+  <li>
+    {#if href}<a {href}>{title}</a>
+    {:else}<span>{title}</span>{/if}
+
+    {#if children}
+      <ul>
+        {#each children as child}
+          {@render shelf(child)}
+        {/each}
+      </ul>
     {/if}
-  </button>
+  </li>
+{/snippet}
+
+<div class="container">
+  <label for="menu-toggle">☰</label>
+  <input type="checkbox" id="menu-toggle" />
+  <!-- the hamburger: toggles the menu -->
   <nav>
     <ul>
-      <li><a href="../">back to index</a></li>
-      {#if up}
-        <li><a href={up}>up</a></li>
-      {/if}
-      {#if left}
-        <li><a href={left}>left</a></li>
-      {/if}
-      {#if right}
-        <li><a href={right}>right</a></li>
-      {/if}
-      {#if down}
-        <li><a href={down}>down</a></li>
-      {/if}
+      {#each shelves as s}
+        {@render shelf(s)}
+      {/each}
     </ul>
   </nav>
 </div>
 
 <style>
-  .open button {
-    position: fixed;
-    top: 0.5rem;
-    right: 0.5rem;
-  }
+  input,
   nav {
     display: none;
   }
-  .open nav {
+  input:checked + nav {
     display: block;
+  }
+  label {
+    cursor: pointer;
   }
   ul {
     list-style: none;
-    display: flex;
     align-items: center;
     padding: 0;
     max-width: 100%;
@@ -65,15 +101,21 @@
   li {
     margin: 1ch;
   }
-  div {
+  label,
+  .container {
+    float: right;
+    position: relative;
+    margin-right: 1em;
+  }
+
+  /* div {
     position: fixed;
     top: 0;
     right: 0;
     padding: 1ch;
     z-index: 1;
-  }
-  div.open {
-    /* centered */
+  } */
+  /* div.open {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -82,5 +124,5 @@
     max-width: 800px;
     max-height: 400px;
     width: 80vw;
-  }
+  } */
 </style>
