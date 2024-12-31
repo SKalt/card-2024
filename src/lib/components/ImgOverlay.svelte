@@ -15,6 +15,10 @@
   let canvas: HTMLCanvasElement | null = null;
   let img: HTMLImageElement | null = $state(null);
   let container: HTMLDivElement | null = null;
+  // let width = $derived.by(() => `${(img?.width || picture.img.w) * ratio}px`);
+  // $inspect({ width });
+  // let height = $derived.by(() => `${(img?.height || picture.img.h) * ratio}px`);
+  // $inspect({ height });
 
   const ratioStore = writable(ratio);
   setContext("ratioStore", ratioStore);
@@ -45,7 +49,7 @@
     }
   };
   const handleResize = () => {
-    setRatio(picture.img.w, img?.width || 1);
+    setRatio(picture.img.w, img?.width || picture.img.w);
     if (canvas) {
       canvas.width = img!.width;
       canvas.height = img!.height;
@@ -107,6 +111,8 @@
     bind:this={img}
   />
   <!--
+      style:width
+      style:height
       onmousemove={debugMousePosition}
   -->
   <canvas bind:this={canvas} style="pointer-events: none"></canvas>

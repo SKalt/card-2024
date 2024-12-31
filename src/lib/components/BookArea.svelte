@@ -57,7 +57,7 @@
     <ShapeEditor {shapeStore} {ratio} {canvas} />
     <!-- TODO: editor button -->
     <h1>{title}</h1>
-    <p>{author}</p>
+    <p>by <em>{author}</em></p>
     {@html html}
   </div>
 {/snippet}
