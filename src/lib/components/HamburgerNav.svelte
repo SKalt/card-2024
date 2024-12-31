@@ -105,7 +105,7 @@
   .container {
     float: right;
     position: relative;
-    margin-right: 1em;
+    margin: 0 1em 0 1em;
   }
 
   /* div {
