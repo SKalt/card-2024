@@ -15,6 +15,7 @@
   let canvas: HTMLCanvasElement | null = null;
   let img: HTMLImageElement | null = $state(null);
   let container: HTMLDivElement | null = null;
+  // let containerWidth = $state(picture.img.w);
   // let width = $derived.by(() => `${(img?.width || picture.img.w) * ratio}px`);
   // $inspect({ width });
   // let height = $derived.by(() => `${(img?.height || picture.img.h) * ratio}px`);
@@ -40,6 +41,8 @@
   let hasVerticalScrollbar = $state(false);
   let canScrollLeft = $state(false);
   let canScrollRight = $state(false);
+  // let width = $derived.by(() => picture.img.w + "px");
+  // let height = $derived.by(() => picture.img.h + "px");
 
   const onscroll = () => {
     if (!container) throw new Error("img not found");
@@ -111,11 +114,17 @@
     bind:this={img}
   />
   <!--
+      style:width={`${containerWidth || picture.img.w}px`}
+      onmousemove={debugMousePosition}
       style:width
       style:height
-      onmousemove={debugMousePosition}
   -->
-  <canvas bind:this={canvas} style="pointer-events: none"></canvas>
+  <canvas
+    bind:this={canvas}
+    width={picture.img.w}
+    height={picture.img.h}
+    style="pointer-events: none"
+  ></canvas>
   <span bind:this={dbg}></span>
 </div>
 
@@ -127,6 +136,7 @@
     padding: 0;
     display: inline-block;
     position: relative;
+    max-height: 100vh;
   }
   /* .container::after,
   .container::before {
@@ -161,6 +171,7 @@
   canvas,
   .enhanced-img {
     width: auto;
+    /* FIXME: ^ to implement zoom, use specific width/height */
     /* max-width: 100%; */
     opacity: 1;
     object-fit: cover;
