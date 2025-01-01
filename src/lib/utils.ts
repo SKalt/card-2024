@@ -8,7 +8,7 @@ export type Book = {
   coords: Coords;
   recommended?: boolean;
   html?: string;
-  // FIXME: update model w/ more fields
+  easter_egg?: boolean; // HACK: to hide a particular easter egg
 };
 
 export const snake_case = (input: string) =>

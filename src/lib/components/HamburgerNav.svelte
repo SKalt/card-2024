@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from "$app/paths";
   import frontA0 from "../../routes/front/a0/title";
   import frontA1 from "../../routes/front/a1/title";
   import frontA2 from "../../routes/front/a2/title";
@@ -83,7 +84,7 @@
 
 {#snippet shelf({ href, title, children }: Shelf)}
   <li>
-    {#if href}<a {href}>{title}</a>
+    {#if href}<a href={base + href}>{title}</a>
     {:else}<span>{title}</span>{/if}
 
     {#if children}

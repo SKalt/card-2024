@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { base } from "$app/paths";
+
   import { setContext, type Snippet } from "svelte";
   import type { Picture } from "vite-imagetools";
   import ImgOverlay from "./ImgOverlay.svelte";
@@ -13,11 +15,13 @@
     picture,
     books,
     title,
+    htmlTitle, // HACK: I got fancy with one particular title.
     side = null,
     externalShapes = [],
   }: {
     picture: Picture;
     title: string;
+    htmlTitle?: string;
     side?: Snippet | null;
     books: Array<Book>;
     externalShapes?: Array<{ shape: Coords; title: string; href: string }>;
@@ -55,30 +59,45 @@
       />
     {/each}
     {#each externalShapes as { shape, title, href }}
-      <HoverableArea setStyle={defaultStyle} coords={shape} href={href || "#TODO"} {title} />
+      <HoverableArea
+        setStyle={defaultStyle}
+        coords={shape}
+        href={base + (href || "#TODO")}
+        {title}
+      />
     {/each}
   </ImgOverlay>
   <div class="sidebar" style="margin: 1em ">
     <HamburgerNav />
     <!-- <ShapeAdder {canvas} {ratio} /> -->
     {#if _sideState === side}
-      <h1>{@html title}</h1>
+      <h1>
+        {#if htmlTitle}{@html htmlTitle}{:else}{title}{/if}
+      </h1>
       {@render _sideState?.()}
-      <ul>
-        {#each books.sort((a, b) => (a.title > b.title ? 1 : -1)) as book}
-          <li>
-            <a
-              onclick={(e) => {
-                e.preventDefault();
-                pushState(`#${snake_case(book.title ?? "")}`, { title: book.title });
-              }}
-              href={`#${snake_case(book.title ?? "")}`}
-            >
-              {book.title}
-            </a>
-          </li>
-        {/each}
-      </ul>
+      {#if books.length > 0}
+        <h2>Books</h2>
+        <ul class="book-list">
+          {#each books
+            .filter((b) => !b.easter_egg)
+            .sort((a, b) => (a.title > b.title ? 1 : -1)) as book}
+            <li>
+              <a
+                onclick={(e) => {
+                  e.preventDefault();
+                  pushState(`#${snake_case(book.title ?? "")}`, { title: book.title });
+                }}
+                href={`#${snake_case(book.title ?? "")}`}
+              >
+                {book.title}
+              </a>
+              {#if book.recommended}
+                <span title="recommended">🌟</span>
+              {/if}
+            </li>
+          {/each}
+        </ul>
+      {/if}
     {:else}
       <button
         onclick={() => {
@@ -105,7 +124,9 @@
       --flex-direction: row;
     }
     .sidebar {
+      width: 100%;
       max-height: 100vh;
+      overflow-y: scroll;
     }
   }
   @media (max-width: 800px) {
@@ -129,5 +150,8 @@
   }
   .sidebar button {
     float: right;
+  }
+  ul.book-list {
+    margin-bottom: 2em;
   }
 </style>

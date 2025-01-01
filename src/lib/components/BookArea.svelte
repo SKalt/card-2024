@@ -52,13 +52,14 @@
   };
 </script>
 
-<!-- <svelte:window onhashchange={checkFocus} /> -->
-
 {#snippet side()}
   <div>
     <!-- <ShapeEditor {shapeStore} {ratio} {canvas} /> -->
     <h1>{title}</h1>
-    <p>by <em>{author}</em></p>
+    <p>
+      by <em>{author}</em>
+      {#if recommended}<span style="padding-left: 1em">🌟 (recommended)</span>{/if}
+    </p>
     {@html html}
   </div>
 {/snippet}
