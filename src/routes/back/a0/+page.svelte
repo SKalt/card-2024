@@ -2,9 +2,8 @@
   const _ = import.meta.glob("../../../../content/back/a0/*.md", { eager: true });
   console.log(_);
   import Page from "$lib/components/Page.svelte";
-  // import ImgOverlay from "$lib/components/ImgOverlay.svelte";
+  // import _shapes from "../../../../content/shelves/back/a0.json";
   import picture from "../../../../img/cropped/back/a0.jpg?enhanced";
-  import _shapes from "../../../../content/shelves/back/a0.json";
   import type { Book, Coords } from "$lib/utils";
   import title from "./title";
   const md = import.meta.glob<
