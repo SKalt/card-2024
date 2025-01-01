@@ -6,6 +6,7 @@
   import { writable, type Readable, type Writable } from "svelte/store";
   import { pushState } from "$app/navigation";
   import ShapeEditor from "./ShapeEditor.svelte";
+  import { page } from "$app/state";
   let {
     title = "",
     author = "",
@@ -24,18 +25,19 @@
   const alt = `${title} by ${author}`;
   const setStyle = recommended ? recommendedStyle : defaultStyle;
 
-  let pinned = $state(false);
+  let pinned = $derived.by(() => page.state.title === title);
+  // $inspect({ title, pinned });
   $effect(() => {
     if (pinned) {
       sideStore.set(side);
-      pageTitle.set(title);
     } // else, other books/hover areas clear the title, etc.
   });
+
+  // just for the shape editor; can be removed later.
   let ratio: number = $state(1);
   const ratioStore: Readable<number> = getContext("ratioStore");
   ratioStore.subscribe((r) => (ratio = r));
-
-  // just for the shape editor; can be removed later.
+  // same
   let canvas: HTMLCanvasElement | null = $state(null);
   const canvasStore: Readable<HTMLCanvasElement | null> = getContext("canvasStore");
   canvasStore.subscribe((c) => (canvas = c));
@@ -44,17 +46,14 @@
   const pageTitle: Writable<string> = getContext("title");
   const onclick = (e: MouseEvent) => {
     e.preventDefault();
-    pushState(href, {});
+    pushState(href, { title });
   };
-  const checkFocus = () => {
-    pinned = window.location.hash === href;
-  };
-  onMount(() => checkFocus());
+
   const shapeStore = writable<Coords>(coords);
   shapeStore.subscribe((s) => (coords = s)); // ????
 </script>
 
-<svelte:window on:hashchange={checkFocus} />
+<!-- <svelte:window onhashchange={checkFocus} /> -->
 
 {#snippet side()}
   <div>
@@ -66,4 +65,4 @@
   </div>
 {/snippet}
 
-<HoverableArea {setStyle} {coords} {href} {alt} {onclick} {pinned} />
+<HoverableArea {setStyle} {coords} {href} title={alt} {onclick} {pinned} />

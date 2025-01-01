@@ -64,7 +64,7 @@
         setStyle={defaultStyle}
         coords={shape}
         href={href || "#TODO"}
-        alt={title}
+        {title}
         onclick={() => {
           if (!href) {
             // edit this

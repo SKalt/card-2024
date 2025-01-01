@@ -30,6 +30,9 @@
 
 <Page {picture} {alt} {books} {externalShapes}>
   {#snippet side()}
-    <div>Instructions go here</div>
+    <div>
+      <h1>Happy <s>Holidays</s> New Year!</h1>
+      <div>Instructions go here</div>
+    </div>
   {/snippet}
 </Page>

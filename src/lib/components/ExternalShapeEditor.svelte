@@ -33,5 +33,5 @@
   </div>
 {/if}
 {#if !done}
-  <HoverableArea alt={title} {href} {setStyle} {coords} {onclick} />
+  <HoverableArea {title} {href} {setStyle} {coords} {onclick} />
 {/if}

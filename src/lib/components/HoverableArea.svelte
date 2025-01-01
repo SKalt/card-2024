@@ -7,14 +7,14 @@
   const {
     setStyle,
     href = "",
-    alt = "",
+    title = "",
     coords: initialCoords = [],
     onclick = () => {},
     pinned = $bindable(false),
   }: {
     setStyle: (ctx: CanvasRenderingContext2D) => void;
     href: string;
-    alt: string;
+    title: string;
     coords: Coords;
     onclick: (e: MouseEvent) => void;
     pinned?: boolean;
@@ -49,6 +49,9 @@
   const onmouseleave = () => {
     if (!pinned) deregisterDrawing();
   };
+  $effect(() => {
+    if (!pinned) deregisterDrawing();
+  });
   const shapeStore = writable<Coords>(initialCoords);
   shapeStore.subscribe((s) => (coords = s));
 
@@ -69,8 +72,8 @@
 <area
   shape="poly"
   coords={strCoords}
-  {alt}
-  title={alt}
+  alt={title}
+  {title}
   {href}
   {onmouseenter}
   {onmouseleave}
