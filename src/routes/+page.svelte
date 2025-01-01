@@ -2,7 +2,7 @@
   import Page from "$lib/components/Page.svelte";
   import type { Book, Coords } from "$lib/utils";
   import picture from "../../img/cropped/overall/index.jpg?enhanced";
-  const alt = "Happy holidays!";
+  const title = "Happy <s>Holidays!</s> New Year!";
   const md = import.meta.glob<
     true,
     string,
@@ -28,10 +28,9 @@
   );
 </script>
 
-<Page {picture} title={alt} {books} {externalShapes}>
+<Page {picture} {title} {books} {externalShapes}>
   {#snippet side()}
     <div>
-      <h1>Happy <s>Holidays</s> New Year!</h1>
       <div>Instructions go here</div>
     </div>
   {/snippet}

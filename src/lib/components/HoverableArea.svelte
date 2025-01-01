@@ -50,7 +50,7 @@
     if (!pinned) deregisterDrawing();
   };
   $effect(() => {
-    if (!pinned) deregisterDrawing();
+    pinned ? registerDrawing() : deregisterDrawing();
   });
   const shapeStore = writable<Coords>(initialCoords);
   shapeStore.subscribe((s) => (coords = s));

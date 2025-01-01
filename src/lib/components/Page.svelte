@@ -4,7 +4,7 @@
   import ImgOverlay from "./ImgOverlay.svelte";
   import HoverableArea from "./HoverableArea.svelte";
   import BookArea from "./BookArea.svelte";
-  import { defaultStyle, type Book, type Coords } from "$lib/utils";
+  import { defaultStyle, snake_case, type Book, type Coords } from "$lib/utils";
   import { writable } from "svelte/store";
   import { pushState } from "$app/navigation";
   import HamburgerNav from "./HamburgerNav.svelte";
@@ -15,13 +15,13 @@
     title,
     side = null,
     externalShapes = [],
-  } = $props<{
+  }: {
     picture: Picture;
     title: string;
-    side?: Snippet;
+    side?: Snippet | null;
     books: Array<Book>;
     externalShapes?: Array<{ shape: Coords; title: string; href: string }>;
-  }>();
+  } = $props();
 
   const sideStore = writable<Snippet | null>(side);
   setContext("side", sideStore);
@@ -29,11 +29,11 @@
   sideStore.subscribe((val) => (_sideState = val ?? side ?? null));
 
   // for shape editor
+  // import ShapeAdder from "./ShapeAdder.svelte";
   // let canvas: HTMLCanvasElement | null = $state(null);
   // const canvasStore = writable<HTMLCanvasElement | null>(null);
   // setContext("pageCanvas", canvasStore);
   // canvasStore.subscribe((v) => (canvas = v));
-
   // let ratio = $state(1);
   // const ratioStore = writable<number>(1);
   // setContext("pageRatio", ratioStore);
@@ -48,8 +48,8 @@
     {#each books as book}
       <BookArea
         title={book.title}
-        recommended={book.recommended}
-        author={book.author}
+        recommended={book.recommended ?? false}
+        author={book.author ?? ""}
         coords={book.coords}
         html={book.html}
       />
@@ -61,15 +61,33 @@
   <div class="sidebar" style="margin: 1em ">
     <HamburgerNav />
     <!-- <ShapeAdder {canvas} {ratio} /> -->
-    {#if _sideState !== side}
+    {#if _sideState === side}
+      <h1>{@html title}</h1>
+      {@render _sideState?.()}
+      <ul>
+        {#each books.sort((a, b) => (a.title > b.title ? 1 : -1)) as book}
+          <li>
+            <a
+              onclick={(e) => {
+                e.preventDefault();
+                pushState(`#${snake_case(book.title ?? "")}`, { title: book.title });
+              }}
+              href={`#${snake_case(book.title ?? "")}`}
+            >
+              {book.title}
+            </a>
+          </li>
+        {/each}
+      </ul>
+    {:else}
       <button
         onclick={() => {
           pushState("#", {});
           sideStore.set(side);
         }}>close</button
       >
+      {@render _sideState?.()}
     {/if}
-    {@render _sideState?.()}
   </div>
 </div>
 

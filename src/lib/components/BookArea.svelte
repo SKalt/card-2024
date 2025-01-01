@@ -28,11 +28,14 @@
   // $inspect({ title, pinned });
   $effect(() => {
     if (pinned) {
+      console.log("pinned", title);
       sideStore.set(side);
     } // else, other books/hover areas clear the title, etc.
   });
 
   // // just for the shape editor; can be removed later.
+  // import { writable, type Readable } from "svelte/store";
+  // import ShapeEditor from "./ShapeEditor.svelte";
   // let ratio: number = $state(1);
   // const ratioStore: Readable<number> = getContext("ratioStore");
   // ratioStore.subscribe((r) => (ratio = r));
