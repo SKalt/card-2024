@@ -1,5 +1,6 @@
 ---
 title: "The Unlikely Pilgrimage of Harold Fry"
-author: ""
+author: "Rachel Joyce"
 shape: [[660,774],[656,778],[654,793],[653,845],[656,849],[664,852],[713,856],[767,858],[774,860],[797,860],[819,863],[855,864],[916,869],[935,872],[1027,877],[1092,883],[1202,888],[1230,892],[1281,894],[1306,897],[1323,897],[1351,900],[1423,904],[1447,907],[1499,909],[1510,911],[1525,909],[1531,903],[1533,881],[1536,876],[1536,852],[1540,842],[1535,834],[1523,828],[1393,817],[1343,815],[1259,807],[1198,805],[1165,800],[1140,798],[1089,796],[1078,794],[997,789],[985,787],[932,785],[907,782],[849,781],[804,778],[706,777],[678,774]]
 ---
+I haven't read this one yet, but I did read Miss Benson's Beetle by the same author which was super fun, silly, and sweet.  Beetle was recommended by Mitzi Vaimberg, AKA my mom, who read it with her book group.  I also read The Heaven and Earth Grocery Store by James McBride, which was another Debordieu book club assignment which received strong endorsement from Mitzi.  I loved it so much that I picked up another book by McBride, Deacon King Kong, which was also pretty great.  So really, I have nothing I can say about the book that is technically featured in this review, but I can endorse the reading list of the Debordieu Book Club.  Hit me up if you want to know any more recs from their list! - Emma 
