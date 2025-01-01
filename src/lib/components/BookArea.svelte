@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { getContext, onMount, type Snippet } from "svelte";
+  import { getContext, type Snippet } from "svelte";
   import { snake_case, defaultStyle, recommendedStyle, type Coords } from "../utils";
 
   import HoverableArea from "./HoverableArea.svelte";
-  import { writable, type Readable, type Writable } from "svelte/store";
+  import { type Writable } from "svelte/store";
   import { pushState } from "$app/navigation";
-  import ShapeEditor from "./ShapeEditor.svelte";
   import { page } from "$app/state";
   let {
     title = "",
@@ -33,32 +32,28 @@
     } // else, other books/hover areas clear the title, etc.
   });
 
-  // just for the shape editor; can be removed later.
-  let ratio: number = $state(1);
-  const ratioStore: Readable<number> = getContext("ratioStore");
-  ratioStore.subscribe((r) => (ratio = r));
-  // same
-  let canvas: HTMLCanvasElement | null = $state(null);
-  const canvasStore: Readable<HTMLCanvasElement | null> = getContext("canvasStore");
-  canvasStore.subscribe((c) => (canvas = c));
+  // // just for the shape editor; can be removed later.
+  // let ratio: number = $state(1);
+  // const ratioStore: Readable<number> = getContext("ratioStore");
+  // ratioStore.subscribe((r) => (ratio = r));
+  // let canvas: HTMLCanvasElement | null = $state(null);
+  // const canvasStore: Readable<HTMLCanvasElement | null> = getContext("canvasStore");
+  // canvasStore.subscribe((c) => (canvas = c));
+  // const shapeStore = writable<Coords>(coords);
+  // shapeStore.subscribe((s) => (coords = s)); // ????
 
   const sideStore: Writable<Snippet | null> = getContext("side");
-  const pageTitle: Writable<string> = getContext("title");
   const onclick = (e: MouseEvent) => {
     e.preventDefault();
     pushState(href, { title });
   };
-
-  const shapeStore = writable<Coords>(coords);
-  shapeStore.subscribe((s) => (coords = s)); // ????
 </script>
 
 <!-- <svelte:window onhashchange={checkFocus} /> -->
 
 {#snippet side()}
   <div>
-    <ShapeEditor {shapeStore} {ratio} {canvas} />
-    <!-- TODO: editor button -->
+    <!-- <ShapeEditor {shapeStore} {ratio} {canvas} /> -->
     <h1>{title}</h1>
     <p>by <em>{author}</em></p>
     {@html html}

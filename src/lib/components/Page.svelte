@@ -29,15 +29,16 @@
   let _sideState = $state(side ?? null);
   sideStore.subscribe((val) => (_sideState = val ?? side ?? null));
 
-  let canvas: HTMLCanvasElement | null = $state(null);
-  const canvasStore = writable<HTMLCanvasElement | null>(null);
-  setContext("pageCanvas", canvasStore);
-  canvasStore.subscribe((v) => (canvas = v));
+  // for shape editor
+  // let canvas: HTMLCanvasElement | null = $state(null);
+  // const canvasStore = writable<HTMLCanvasElement | null>(null);
+  // setContext("pageCanvas", canvasStore);
+  // canvasStore.subscribe((v) => (canvas = v));
 
-  let ratio = $state(1);
-  const ratioStore = writable<number>(1);
-  setContext("pageRatio", ratioStore);
-  ratioStore.subscribe((v) => (ratio = v));
+  // let ratio = $state(1);
+  // const ratioStore = writable<number>(1);
+  // setContext("pageRatio", ratioStore);
+  // ratioStore.subscribe((v) => (ratio = v));
 </script>
 
 <svelte:head>
@@ -60,8 +61,7 @@
   </ImgOverlay>
   <div class="sidebar" style="margin: 1em ">
     <HamburgerNav />
-    <ShapeAdder {canvas} {ratio} />
-    <!-- TODO: shape editor -->
+    <!-- <ShapeAdder {canvas} {ratio} /> -->
     {#if _sideState !== side}
       <button
         onclick={() => {
