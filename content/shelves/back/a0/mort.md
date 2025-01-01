@@ -50,4 +50,6 @@ shape: [
   [99,1068],
   [53,1067]
 ]
+recommended: true
 ---
+So. Good.  It's the story of the training of the next Grim Reaper.  It's a hilarious Pratchett and establishes Death as one of the best characters in the Discworld series. I definitely need to read this one again. - Emma
