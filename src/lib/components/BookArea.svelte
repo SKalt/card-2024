@@ -24,10 +24,18 @@
   const alt = `${title} by ${author}`;
   const setStyle = recommended ? recommendedStyle : defaultStyle;
 
+  let pinned = $state(false);
+  $effect(() => {
+    if (pinned) {
+      sideStore.set(side);
+      pageTitle.set(title);
+    } // else, other books/hover areas clear the title, etc.
+  });
   let ratio: number = $state(1);
   const ratioStore: Readable<number> = getContext("ratioStore");
   ratioStore.subscribe((r) => (ratio = r));
 
+  // just for the shape editor; can be removed later.
   let canvas: HTMLCanvasElement | null = $state(null);
   const canvasStore: Readable<HTMLCanvasElement | null> = getContext("canvasStore");
   canvasStore.subscribe((c) => (canvas = c));
@@ -36,14 +44,10 @@
   const pageTitle: Writable<string> = getContext("title");
   const onclick = (e: MouseEvent) => {
     e.preventDefault();
-    sideStore.set(side);
-    pageTitle.set(title);
     pushState(href, {});
   };
   const checkFocus = () => {
-    if (window.location.hash !== href) return;
-    sideStore.set(side);
-    pageTitle.set(title);
+    pinned = window.location.hash === href;
   };
   onMount(() => checkFocus());
   const shapeStore = writable<Coords>(coords);
@@ -62,4 +66,4 @@
   </div>
 {/snippet}
 
-<HoverableArea {setStyle} {coords} {href} {alt} {onclick} />
+<HoverableArea {setStyle} {coords} {href} {alt} {onclick} {pinned} />

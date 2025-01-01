@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Coords } from "../utils";
   import type { Picture } from "vite-imagetools";
-
   import { onMount, getContext, setContext, type Snippet, tick, hasContext } from "svelte";
   import { writable, type Writable } from "svelte/store";
 
@@ -35,6 +34,15 @@
     const parentRatioStore: Writable<number> = getContext("pageRatio");
     ratioStore.subscribe((v) => parentRatioStore.set(v));
   }
+  let drawCallbackStore = writable([] as Array<(ctx: CanvasRenderingContext2D) => void>);
+  setContext("drawCallbacks", drawCallbackStore);
+  drawCallbackStore.subscribe((callbacks) => {
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    callbacks.forEach((cb) => cb(ctx));
+  });
 
   let dbg: HTMLElement;
   let hasHorizontalScrollbar = $state(false);

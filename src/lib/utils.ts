@@ -19,12 +19,10 @@ export const snake_case = (input: string) =>
     .join("_");
 
 export const drawShape = (
-  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
   coords: Coords,
   setStyle: (ctx: CanvasRenderingContext2D) => void,
 ) => {
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("could not acquire context2d");
   ctx.lineWidth = 4;
   setStyle(ctx);
   coords = [...coords]; // for immutability
