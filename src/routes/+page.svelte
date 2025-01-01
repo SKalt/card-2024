@@ -28,7 +28,7 @@
   );
 </script>
 
-<Page {picture} {alt} {books} {externalShapes}>
+<Page {picture} title={alt} {books} {externalShapes}>
   {#snippet side()}
     <div>
       <h1>Happy <s>Holidays</s> New Year!</h1>

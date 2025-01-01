@@ -6,7 +6,7 @@
   import picture from "../../../../img/cropped/back/a0.jpg?enhanced";
   import _shapes from "../../../../content/shelves/back/a0.json";
   import type { Book, Coords } from "$lib/utils";
-  const alt = "Discworld books";
+  import title from "./title";
   const md = import.meta.glob<
     true,
     string,
@@ -32,4 +32,4 @@
   );
 </script>
 
-<Page {picture} {alt} {books}></Page>
+<Page {picture} {title} {books} {externalShapes}></Page>

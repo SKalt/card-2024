@@ -30,4 +30,4 @@
   );
 </script>
 
-<Page {picture} {alt} {books}></Page>
+<Page {picture} title={alt} {books}></Page>

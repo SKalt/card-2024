@@ -1,15 +1,19 @@
 <script lang="ts">
-  import type { Coords } from "../utils";
   import type { Picture } from "vite-imagetools";
   import { onMount, getContext, setContext, type Snippet, tick, hasContext } from "svelte";
   import { writable, type Writable } from "svelte/store";
 
-  const { mapId, picture, alt, children } = $props<{
+  const {
+    mapId,
+    picture,
+    title,
+    children,
+  }: {
     mapId: string;
     picture: Picture;
-    alt: string;
+    title: string;
     children?: Snippet;
-  }>();
+  } = $props();
   let ratio: number = 1;
   let canvas: HTMLCanvasElement | null = null;
   let img: HTMLImageElement | null = $state(null);
@@ -114,8 +118,8 @@
   <enhanced:img
     class="enhanced-img"
     src={picture}
-    {alt}
-    title={alt}
+    {title}
+    alt={title}
     usemap="#{mapId}"
     onload={handleResize}
     onresize={handleResize}

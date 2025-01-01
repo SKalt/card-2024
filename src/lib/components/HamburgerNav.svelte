@@ -1,50 +1,78 @@
 <script lang="ts">
+  import frontA0 from "../../routes/front/a0/title";
+  import frontA1 from "../../routes/front/a1/title";
+  import frontA2 from "../../routes/front/a2/title";
+  import frontA3 from "../../routes/front/a3/title";
+  import frontB0 from "../../routes/front/b0/title";
+  import frontB1 from "../../routes/front/b1/title";
+  import frontB2 from "../../routes/front/b2/title";
+  import frontB3 from "../../routes/front/b3/title";
+
+  import backA0 from "../../routes/back/a0/title";
+  import backA1 from "../../routes/back/a1/title";
+  import backA2 from "../../routes/back/a2/title";
+  import backA3 from "../../routes/back/a3/title";
+  import backB0 from "../../routes/back/b0/title";
+  import backB1 from "../../routes/back/b1/title";
+  import backB2 from "../../routes/back/b2/title";
+  import backB3 from "../../routes/back/b3/title";
+
+  import childrensLit from "../../routes/childrens/title";
+  import childrensTop from "../../routes/childrens/top/title";
+  import childrensMid from "../../routes/childrens/middle/title";
+  import childrensBottom from "../../routes/childrens/bottom/title";
+
+  import nonfiction from "../../routes/nonfiction/title";
+  import nonfictionTop from "../../routes/nonfiction/top/title";
+  import nonfictionMid from "../../routes/nonfiction/middle/title";
+  import nonfictionBottom from "../../routes/nonfiction/bottom/title";
+
   const shelves: Shelf[] = [
     { title: "Index", href: "/" },
     { title: "Classics", href: "/classics" },
+    { title: "Overall", href: "/overall" },
     {
-      title: "Nonfiction",
-      href: "/nonfiction",
+      title: "Front",
       children: [
-        { title: "TODO", href: "/nonfiction/top" },
-        { title: "TODO", href: "/nonfiction/middle" },
-        { title: "TODO", href: "/nonfiction/bottom" },
+        { title: frontA0, href: "/front/a0" },
+        { title: frontA1, href: "/front/a1" },
+        { title: frontA2, href: "/front/a2" },
+        { title: frontA3, href: "/front/a3" },
+        { title: frontB0, href: "/front/b0" },
+        { title: frontB1, href: "/front/b1" },
+        { title: frontB2, href: "/front/b2" },
+        { title: frontB3, href: "/front/b3" },
       ],
     },
     {
       title: "Back",
       children: [
-        { title: "Terry Pratchett books", href: "/back/a0" },
-        { title: "Mythology", href: "/back/a1" },
-        { title: "Modern novels", href: "/back/a2" },
-        { title: "Misc", href: "/back/a3" },
-        { title: "Light fiction", href: "/back/b0" },
-        { title: "Strange", href: "/back/b1" },
-        { title: "Sci-Fi", href: "/back/b2" },
-        { title: "Bad Sci-Fi", href: "/back/b3" },
+        { title: backA0, href: "/back/a0" },
+        { title: backA1, href: "/back/a1" },
+        { title: backA2, href: "/back/a2" },
+        { title: backA3, href: "/back/a3" },
+        { title: backB0, href: "/back/b0" },
+        { title: backB1, href: "/back/b1" },
+        { title: backB2, href: "/back/b2" },
+        { title: backB3, href: "/back/b3" },
       ],
     },
     {
-      title: "Front",
+      title: nonfiction,
+      href: "/nonfiction",
       children: [
-        { title: "TODO", href: "/front/a0" },
-        { title: "TODO", href: "/front/a1" },
-        { title: "TODO", href: "/front/a2" },
-        { title: "TODO", href: "/front/a3" },
-        { title: "TODO", href: "/front/b0" },
-        { title: "TODO", href: "/front/b1" },
-        { title: "TODO", href: "/front/b2" },
-        { title: "TODO", href: "/front/b3" },
+        { title: nonfictionTop, href: "/nonfiction/top" },
+        { title: nonfictionMid, href: "/nonfiction/middle" },
+        { title: nonfictionBottom, href: "/nonfiction/bottom" },
       ],
     },
-    { title: "Overall", href: "/" },
     {
-      title: "Children's Literature",
+      title: childrensLit,
       href: "/childrens",
       children: [
-        { title: "top", href: "/childrens/top" },
-        { title: "Harry Potter", href: "/childrens/middle" },
-        { title: "bottom", href: "/childrens/bottom" },
+        { title: childrensTop, href: "/childrens/top" },
+        { title: childrensMid, href: "/childrens/middle" },
+        { title: childrensBottom, href: "/childrens/bottom" },
       ],
     },
   ];

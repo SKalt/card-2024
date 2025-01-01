@@ -12,4 +12,4 @@
   );
 </script>
 
-<Page {picture} {alt} books={[]} {externalShapes}></Page>
+<Page {picture} title={alt} books={[]} {externalShapes}></Page>

@@ -20,7 +20,7 @@
       html: b.html,
     };
   });
-  const alt = "Discworld books";
+  import title from "./title";
   // import _shapes from "../../../../content/shelves/front/a2.json";
   // const externalShapes = _shapes
   //   .map((s) =>
@@ -40,4 +40,4 @@
   const externalShapes = Object.values(_shapes);
 </script>
 
-<Page {picture} {alt} {books} {externalShapes}></Page>
+<Page {picture} {title} {books} {externalShapes}></Page>

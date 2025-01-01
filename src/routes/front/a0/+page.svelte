@@ -1,5 +1,6 @@
 <script lang="ts">
   import Page from "$lib/components/Page.svelte";
+  import title from "./title";
   const md = import.meta.glob<
     true,
     string,
@@ -25,7 +26,6 @@
   );
   import picture from "../../../../img/cropped/front/a0.jpg?enhanced";
   import type { Book, Coords } from "$lib/utils";
-  const alt = "Math & Language Textbooks";
 </script>
 
-<Page {picture} {alt} {books} {externalShapes}></Page>
+<Page {picture} {title} {books} {externalShapes}></Page>

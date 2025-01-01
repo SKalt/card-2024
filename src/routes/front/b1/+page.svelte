@@ -3,7 +3,7 @@
   // import ImgOverlay from "$lib/components/ImgOverlay.svelte";
   import picture from "../../../../img/cropped/front/b1.jpg?enhanced";
   import type { Book, Coords } from "$lib/utils";
-  const alt = "FIXME";
+  import title from "./title";
   const md = import.meta.glob<
     true,
     string,
@@ -29,4 +29,4 @@
   );
 </script>
 
-<Page {picture} {alt} {books} {externalShapes}></Page>
+<Page {picture} {title} {books} {externalShapes}></Page>

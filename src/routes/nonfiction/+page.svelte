@@ -11,7 +11,7 @@
   );
 </script>
 
-<Page {picture} {alt} books={[]} {externalShapes}>
+<Page {picture} title={alt} books={[]} {externalShapes}>
   {#snippet side()}
     <div>Instructions go here</div>
   {/snippet}

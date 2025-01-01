@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, setContext, type Snippet } from "svelte";
+  import { setContext, type Snippet } from "svelte";
   import type { Picture } from "vite-imagetools";
   import ImgOverlay from "./ImgOverlay.svelte";
   import HoverableArea from "./HoverableArea.svelte";
@@ -7,18 +7,17 @@
   import { defaultStyle, type Book, type Coords } from "$lib/utils";
   import { writable } from "svelte/store";
   import { pushState } from "$app/navigation";
-  import ShapeAdder from "./ShapeAdder.svelte";
   import HamburgerNav from "./HamburgerNav.svelte";
   import { page } from "$app/state";
   const {
     picture,
     books,
-    alt,
+    title,
     side = null,
     externalShapes = [],
   } = $props<{
     picture: Picture;
-    alt: string;
+    title: string;
     side?: Snippet;
     books: Array<Book>;
     externalShapes?: Array<{ shape: Coords; title: string; href: string }>;
@@ -42,10 +41,10 @@
 </script>
 
 <svelte:head>
-  <title>{page.state.title ?? alt}</title>
+  <title>{page.state.title ?? title}</title>
 </svelte:head>
 <div class="container">
-  <ImgOverlay {alt} {picture} mapId="shelves">
+  <ImgOverlay {title} {picture} mapId="shelves">
     {#each books as book}
       <BookArea
         title={book.title}
