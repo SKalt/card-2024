@@ -26,7 +26,6 @@
       { eager: true },
     ),
   );
-  $inspect({ books });
 </script>
 
 <Page {picture} {alt} {books} {externalShapes}>
