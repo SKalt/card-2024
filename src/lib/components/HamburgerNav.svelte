@@ -28,6 +28,7 @@
   import nonfictionBottom from "../../routes/nonfiction/bottom/title";
 
   const shelves: Shelf[] = [
+    { title: "Search", href: "/search" },
     { title: "Index", href: "/" },
     { title: "Classics", href: "/classics" },
     { title: "Overall", href: "/overall" },
@@ -134,6 +135,8 @@
     float: right;
     position: relative;
     margin: 0 1em 0 1em;
+    max-height: 99vh;
+    overflow-y: scroll;
   }
 
   /* div {

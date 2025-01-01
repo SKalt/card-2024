@@ -15,7 +15,7 @@
     "../../../../content/shelves/front/b0/*.json",
     { eager: true },
   );
-  const alt = "Books about programming";
+  import title from "./title";
   const books: Book[] = Object.values(md).map((b) => {
     return {
       title: b.attributes.title,
@@ -29,4 +29,4 @@
   const externalShapes = Object.values(_shapes);
 </script>
 
-<Page {picture} title={alt} {books} {externalShapes}></Page>
+<Page {picture} {title} {books} {externalShapes}></Page>
