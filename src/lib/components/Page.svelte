@@ -7,9 +7,9 @@
   import { defaultStyle, type Book, type Coords } from "$lib/utils";
   import { writable } from "svelte/store";
   import { pushState } from "$app/navigation";
-  import ExternalShapeEditor from "./ExternalShapeEditor.svelte";
   import ShapeAdder from "./ShapeAdder.svelte";
   import HamburgerNav from "./HamburgerNav.svelte";
+  import { page } from "$app/state";
   const {
     picture,
     books,
@@ -29,11 +29,6 @@
   let _sideState = $state(side ?? null);
   sideStore.subscribe((val) => (_sideState = val ?? side ?? null));
 
-  let title = $state(alt);
-  const pageTitle = writable(alt);
-  setContext("title", pageTitle);
-  pageTitle.subscribe((val) => (title = val));
-
   let canvas: HTMLCanvasElement | null = $state(null);
   const canvasStore = writable<HTMLCanvasElement | null>(null);
   setContext("pageCanvas", canvasStore);
@@ -46,7 +41,7 @@
 </script>
 
 <svelte:head>
-  <title>{title}</title>
+  <title>{page.state.title ?? alt}</title>
 </svelte:head>
 <div class="container">
   <ImgOverlay {alt} {picture} mapId="shelves">
@@ -60,17 +55,7 @@
       />
     {/each}
     {#each externalShapes as { shape, title, href }}
-      <HoverableArea
-        setStyle={defaultStyle}
-        coords={shape}
-        href={href || "#TODO"}
-        {title}
-        onclick={() => {
-          if (!href) {
-            // edit this
-          }
-        }}
-      />
+      <HoverableArea setStyle={defaultStyle} coords={shape} href={href || "#TODO"} {title} />
     {/each}
   </ImgOverlay>
   <div class="sidebar" style="margin: 1em ">
@@ -82,7 +67,6 @@
         onclick={() => {
           pushState("#", {});
           sideStore.set(side);
-          pageTitle.set(alt);
         }}>close</button
       >
     {/if}

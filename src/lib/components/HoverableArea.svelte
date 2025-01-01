@@ -16,7 +16,7 @@
     href: string;
     title: string;
     coords: Coords;
-    onclick: (e: MouseEvent) => void;
+    onclick?: (e: MouseEvent) => void;
     pinned?: boolean;
   } = $props();
 
