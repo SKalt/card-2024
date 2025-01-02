@@ -69,7 +69,7 @@
       <HoverableArea
         setStyle={defaultStyle}
         coords={shape}
-        href={base + (href || "#TODO")}
+        href={base + (href || "")}
         onclick={(e) => {
           e.preventDefault();
           console.log("pushing state", { title });

@@ -2,7 +2,7 @@
   import { writable, type Readable, type Writable } from "svelte/store";
   import { clear, type Coords, drawShape } from "../utils";
   import { getContext, hasContext, onDestroy, onMount, tick, type Snippet } from "svelte";
-  import ShapeEditor from "./ShapeEditor.svelte";
+  // import ShapeEditor from "./ShapeEditor.svelte";
 
   const {
     setStyle,
@@ -71,7 +71,7 @@
 </script>
 
 {#snippet side()}
-  <ShapeEditor {shapeStore} {ratio} {canvas} />
+  <!-- <ShapeEditor {shapeStore} {ratio} {canvas} /> -->
 {/snippet}
 
 <area

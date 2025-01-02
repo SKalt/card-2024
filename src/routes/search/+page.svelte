@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from "$app/paths";
   import HamburgerNav from "$lib/components/HamburgerNav.svelte";
   import { snake_case } from "$lib/utils";
   import Fuse from "fuse.js/min-basic";
@@ -26,7 +27,6 @@
       author,
     };
   });
-  console.log(md);
   const index = new Fuse(md, {
     keys: ["title", "author"],
     includeScore: true,
@@ -57,7 +57,8 @@
         <ul>
           {#each results as { href, title, author }}
             <li>
-              <a {href}>{title}</a> by <em>{author}</em>
+              <a href={base + href.startsWith("/") ? href : "/" + href}>{title}</a> by
+              <em>{author}</em>
             </li>
           {/each}
         </ul>

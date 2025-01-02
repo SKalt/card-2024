@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from "$app/paths";
   import Page from "$lib/components/Page.svelte";
   import type { Coords } from "$lib/utils";
   import picture from "../../../img/cropped/nonfiction/index.png?enhanced";
@@ -15,9 +16,9 @@
   {#snippet side()}
     <div>
       <ul>
-        <li><a href="top">Top shelf</a></li>
-        <li><a href="middle">Middle shelf</a></li>
-        <li><a href="bottom">Bottom shelf</a></li>
+        <li><a href={base + "/nonfiction/top"}>Top shelf</a></li>
+        <li><a href={base + "/nonfiction/middle"}>Middle shelf</a></li>
+        <li><a href={base + "/nonfiction/bottom"}>Bottom shelf</a></li>
       </ul>
     </div>
   {/snippet}
