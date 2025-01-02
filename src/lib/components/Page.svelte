@@ -1,7 +1,7 @@
 <script lang="ts">
   import { base } from "$app/paths";
 
-  import { setContext, type Snippet } from "svelte";
+  import { onMount, setContext, type Snippet } from "svelte";
   import type { Picture } from "vite-imagetools";
   import ImgOverlay from "./ImgOverlay.svelte";
   import HoverableArea from "./HoverableArea.svelte";
@@ -42,6 +42,13 @@
   // const ratioStore = writable<number>(1);
   // setContext("pageRatio", ratioStore);
   // ratioStore.subscribe((v) => (ratio = v));
+  onMount(() => {
+    globalThis.addEventListener("hashchange", (e) => {
+      if (!globalThis.location.hash) {
+        sideStore.set(null);
+      }
+    });
+  });
 </script>
 
 <svelte:head>

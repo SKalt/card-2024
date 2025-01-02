@@ -27,12 +27,13 @@
   import nonfictionTop from "../../routes/nonfiction/top/title";
   import nonfictionMid from "../../routes/nonfiction/middle/title";
   import nonfictionBottom from "../../routes/nonfiction/bottom/title";
-
+  import overall from "../../routes/overall/title";
+  import classics from "../../routes/classics/title";
   const shelves: Shelf[] = [
     { title: "Search", href: "/search" },
     { title: "Index", href: "/" },
-    { title: "Classics", href: "/classics" },
-    { title: "Overall", href: "/overall" },
+    { title: classics, href: "/classics" },
+    { title: overall, href: "/overall" },
     {
       title: "Front",
       children: [
@@ -80,6 +81,8 @@
   ];
 
   type Shelf = { title: string; href?: string; children?: Shelf[] };
+  let open = $state(false);
+  let content = $derived(open ? "×" : "☰");
 </script>
 
 {#snippet shelf({ href, title, children }: Shelf)}
@@ -98,8 +101,8 @@
 {/snippet}
 
 <div class="container">
-  <label for="menu-toggle">☰</label>
-  <input type="checkbox" id="menu-toggle" />
+  <label for="menu-toggle">{content}</label>
+  <input type="checkbox" id="menu-toggle" bind:checked={open} />
   <!-- the hamburger: toggles the menu -->
   <nav>
     <ul>

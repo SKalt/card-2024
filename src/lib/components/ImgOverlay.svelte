@@ -29,7 +29,9 @@
 
   const canvasStore = writable<HTMLCanvasElement | null>(canvas);
   setContext("canvasStore", canvasStore);
-
+  canvasStore.subscribe((v) => {
+    if (v) drawCallbacks = [...drawCallbacks];
+  });
   if (hasContext("pageCanvas")) {
     const parentCanvasStore: Writable<HTMLCanvasElement | null> = getContext("pageCanvas");
     canvasStore.subscribe((v) => parentCanvasStore.set(v));
@@ -38,14 +40,26 @@
     const parentRatioStore: Writable<number> = getContext("pageRatio");
     ratioStore.subscribe((v) => parentRatioStore.set(v));
   }
+  let drawCallbacks: Array<(ctx: CanvasRenderingContext2D) => void> = $state([]);
   let drawCallbackStore = writable([] as Array<(ctx: CanvasRenderingContext2D) => void>);
   setContext("drawCallbacks", drawCallbackStore);
   drawCallbackStore.subscribe((callbacks) => {
-    if (!canvas) return;
+    drawCallbacks = callbacks;
+  });
+  $effect(() => {
+    // $inspect(drawCallbacks);
+    if (!canvas) {
+      console.warn("no canvas found");
+      return;
+    }
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) {
+      console.warn("no context found");
+      return;
+    }
+    // console.log("clearing canvas");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    callbacks.forEach((cb) => cb(ctx));
+    drawCallbacks.forEach((cb) => cb(ctx));
   });
 
   let dbg: HTMLElement;
@@ -100,6 +114,11 @@
       else tick().then(waitForCanvas);
     };
     waitForCanvas();
+
+    tick().then(() => {
+      console.log("updating draw callbacks");
+      drawCallbackStore.update((callbacks) => [...callbacks]);
+    });
   });
 </script>
 

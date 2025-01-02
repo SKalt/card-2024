@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Coords } from "$lib/utils";
+  import { snake_case, type Coords } from "$lib/utils";
   import type { Writable } from "svelte/store";
 
   // note: ratio and other image-context-related info need to be props since this
@@ -14,6 +14,37 @@
     canvas: HTMLCanvasElement | null;
   } = $props();
   type EditMode = "none" | "select" | "move" | "del";
+
+  let title = $state("");
+  let shelf = $state("");
+  let slug = $derived(title ? snake_case(title) : shelf.split("/").slice(-1)[0]);
+  let href = $derived(`${shelf}#${slug}`);
+  let description = $state("");
+
+  let download = $derived.by(() => (author || description ? `${slug}.md` : `${slug}.json`));
+
+  const shelves = ["front", "back"]
+    .map((side) =>
+      ["a", "b"].map((col) => Array.from({ length: 4 }, (_, i) => `/${side}/${col}${i}`)),
+    )
+    .flat(4)
+    .concat(
+      ["nonfiction", "childrens"]
+        .map((shelf) => ["top", "middle", "bottom"].map((lvl) => `/${shelf}/${lvl}`))
+        .flat(2),
+    );
+  let author = $state("");
+  let value = $derived.by(() => {
+    if (!description && !author) {
+      return JSON.stringify({ shape: "SHAPE", href, title, shelf }, null, 2).replace(
+        '"SHAPE"',
+        JSON.stringify(mutable),
+      );
+    } else {
+      return `---\nshape: ${JSON.stringify(mutable)}\nauthor: ${author}\nhref: ${href}\n---\n${description}`;
+    }
+  });
+  let downloadUrl = $derived(`data:application/octet-stream;base64,${btoa(value)}`);
 
   let mutable: Coords = $state([]);
   shapeStore.subscribe((s) => (mutable = s));
@@ -129,4 +160,20 @@
   {#if mode == "del"}
     <button>move point</button>
   {/if}
+  <div>
+    <label for="author">author</label><input name="author" bind:value={author} />
+    <label for="title">title</label><input name="title" bind:value={title} />
+    <select bind:value={shelf}>
+      {#each shelves as shelf}
+        <option value={shelf}>{shelf}</option>
+      {/each}
+    </select>
+    <label for="description">description</label><textarea
+      name="description"
+      bind:value={description}
+    ></textarea>
+    <textarea style="font-family: monospace; min-height: content">{value}</textarea>
+
+    <a {download} href={downloadUrl}>download</a>
+  </div>
 </div>

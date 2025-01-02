@@ -12,7 +12,7 @@
       attributes: { title: string; author: string; shape: Coords; recommended?: boolean };
       html: string;
     }
-  >("../../../../content/shelves/back/a0/*.md", { eager: true });
+  >("../../../../content/shelves/back/a2/*.md", { eager: true });
   const books: Book[] = Object.values(md).map((b) => {
     return {
       title: b.attributes.title,
@@ -24,7 +24,7 @@
   });
   const externalShapes = Object.values(
     import.meta.glob<true, string, { title: string; href: string; shape: Coords }>(
-      "../../../../content/shelves/back/a0/*.json",
+      "../../../../content/shelves/back/a2/*.json",
       { eager: true },
     ),
   );

@@ -13,6 +13,12 @@
 
 <Page {picture} title={alt} books={[]} {externalShapes}>
   {#snippet side()}
-    <div>Instructions go here</div>
+    <div>
+      <ul>
+        <li><a href="top">Top shelf</a></li>
+        <li><a href="middle">Middle shelf</a></li>
+        <li><a href="bottom">Bottom shelf</a></li>
+      </ul>
+    </div>
   {/snippet}
 </Page>

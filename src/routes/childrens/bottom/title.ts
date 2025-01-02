@@ -1,1 +1,1 @@
-export default "Bottom";
+export default "Miscellaneous";

@@ -28,6 +28,19 @@
       { eager: true },
     ),
   );
+  // const books: Book[] = _shapes
+  //   .map((b, i) =>
+  //     b
+  //       .map((c, j) => {
+  //         return {
+  //           title: `${i}/${j}`,
+  //           coords: c as Coords,
+  //         };
+  //       })
+  //       .flat(),
+  //   )
+  //   .flat(2);
 </script>
 
 <Page {picture} {title} {books} {externalShapes}></Page>
+<!-- <Page {picture} {title} {books}></Page> -->

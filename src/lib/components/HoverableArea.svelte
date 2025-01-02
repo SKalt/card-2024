@@ -27,7 +27,11 @@
   const renderCallbacks: Writable<Array<(ctx: CanvasRenderingContext2D) => void>> =
     getContext("drawCallbacks");
 
-  const render = (ctx: CanvasRenderingContext2D) => drawShape(ctx, transformedCoords, setStyle);
+  const render = (ctx: CanvasRenderingContext2D) => {
+    // console.log("rendering", title, transformedCoords);
+    drawShape(ctx, transformedCoords, setStyle);
+  };
+  render["title"] = title;
   const registerDrawing = () => {
     renderCallbacks.update((callbacks) => callbacks.filter((cb) => cb !== render).concat([render]));
   };
@@ -50,6 +54,7 @@
     if (!pinned) deregisterDrawing();
   };
   $effect(() => {
+    // if (pinned) console.log("registering", title);
     pinned ? registerDrawing() : deregisterDrawing();
   });
   const shapeStore = writable<Coords>(initialCoords);
@@ -60,7 +65,7 @@
   const oncontextmenu = (e: MouseEvent) => {
     e.preventDefault();
     if (sideStore) {
-      sideStore.set(y);
+      sideStore.set(y as Snippet);
     }
   };
 </script>

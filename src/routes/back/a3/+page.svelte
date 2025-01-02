@@ -12,7 +12,7 @@
       attributes: { title: string; author: string; shape: Coords; recommended?: boolean };
       html: string;
     }
-  >("../../../../content/shelves/back/a0/*.md", { eager: true });
+  >("../../../../content/shelves/back/a3/*.md", { eager: true });
   const books: Book[] = Object.values(md).map((b) => {
     return {
       title: b.attributes.title,
@@ -22,9 +22,24 @@
       html: b.html,
     };
   });
+  // .concat(
+  //   _shapes
+  //     .map((b, i) =>
+  //       b
+  //         .map((c, j) => ({
+  //           title: `${i}/${j}`,
+  //           author: "",
+  //           recommended: false,
+  //           html: "",
+  //           coords: c as Coords,
+  //         }))
+  //         .flat(2),
+  //     )
+  //     .flat(2),
+  // );
   const externalShapes = Object.values(
     import.meta.glob<true, string, { title: string; href: string; shape: Coords }>(
-      "../../../../content/shelves/back/a0/*.json",
+      "../../../../content/shelves/back/a3/*.json",
       { eager: true },
     ),
   );

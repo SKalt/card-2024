@@ -4,7 +4,7 @@
   import picture from "../../../img/cropped/overall/shelf.jpg?enhanced";
   import _shapes from "../../../content/shelves/overall/shelf.json";
   import type { Book, Coords } from "$lib/utils";
-  const alt = "TODO";
+  import title from "./title";
   const md = import.meta.glob<
     true,
     string,
@@ -24,4 +24,4 @@
   });
 </script>
 
-<Page {picture} title={alt} {books}></Page>
+<Page {picture} {title} {books}></Page>

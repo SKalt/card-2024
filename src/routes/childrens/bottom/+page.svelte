@@ -4,7 +4,7 @@
   import picture from "../../../../img/cropped/childrens/bottom.jpg?enhanced";
   import _shapes from "../../../../content/shelves/childrens/bottom.json";
   import type { Book, Coords } from "$lib/utils";
-  const alt = "Harry Potter books";
+  import title from "./title";
   const md = import.meta.glob<
     true,
     string,
@@ -22,12 +22,6 @@
       html: b.html,
     };
   });
-  const externalShapes = Object.values(
-    import.meta.glob<true, string, { title: string; href: string; shape: Coords }>(
-      "../../../../content/shelves/childrens/bottom/*.json",
-      { eager: true },
-    ),
-  );
 </script>
 
-<Page {picture} title={alt} {books}></Page>
+<Page {picture} {title} {books}></Page>

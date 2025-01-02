@@ -30,7 +30,7 @@
   let author = $state("");
   let value = $derived.by(() => {
     if (!description) {
-      return JSON.stringify({ shape: "SHAPE", href }, null, 2).replace(
+      return JSON.stringify({ shape: "SHAPE", href, title, shelf }, null, 2).replace(
         '"SHAPE"',
         JSON.stringify(mutable),
       );

@@ -4,7 +4,7 @@
   import picture from "../../../../img/cropped/nonfiction/bottom.jpg?enhanced";
   import _shapes from "../../../../content/shelves/nonfiction/bottom.json";
   import type { Book, Coords } from "$lib/utils";
-  const alt = "FIXME";
+  import title from "./title";
   const md = import.meta.glob<
     true,
     string,
@@ -30,4 +30,4 @@
   );
 </script>
 
-<Page {picture} title={alt} {books} {externalShapes}></Page>
+<Page {picture} {title} {books} {externalShapes}></Page>

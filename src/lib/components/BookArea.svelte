@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { getContext, type Snippet } from "svelte";
+  import { tick } from "svelte";
+  import { getContext, onMount, type Snippet } from "svelte";
   import { snake_case, defaultStyle, recommendedStyle, type Coords } from "../utils";
-
   import HoverableArea from "./HoverableArea.svelte";
   import { type Writable } from "svelte/store";
   import { pushState } from "$app/navigation";
@@ -21,24 +21,23 @@
   } = $props();
   const slug = snake_case(title);
   const href = `#${slug}`;
-  const alt = `${title} by ${author}`;
+  const alt = title + author ? ` by ${author}` : "";
   const setStyle = recommended ? recommendedStyle : defaultStyle;
 
   let pinned = $derived.by(() => snake_case(page.state.title ?? "") === slug);
   onMount(() => {
     const _hash = globalThis.location?.hash ?? "";
     if (!page.state.title && _hash && _hash === href) {
-      console.log("should pushstate", { title });
       tick().then(() => pushState(href, { title }));
     }
   });
   $effect(() => {
     if (pinned) {
-      console.log("pinned", title);
+      getContext<Writable<any[]>>("drawCallbacks")?.update((ident) => [...ident]);
+      // console.log("pinned", title);
       sideStore.set(side as Snippet);
     } // else, other books/hover areas clear the title, etc.
   });
-
   // // just for the shape editor; can be removed later.
   // import { writable, type Readable } from "svelte/store";
   // import ShapeEditor from "./ShapeEditor.svelte";
@@ -63,8 +62,10 @@
     <!-- <ShapeEditor {shapeStore} {ratio} {canvas} /> -->
     <h1>{title}</h1>
     <p>
-      by <em>{author}</em>
-      {#if recommended}<span style="padding-left: 1em">🌟 (recommended)</span>{/if}
+      {#if author}
+        by <em>{author}</em>
+      {/if}
+      {#if recommended}<span>🌟 (recommended)</span>{/if}
     </p>
     {@html html}
   </div>
