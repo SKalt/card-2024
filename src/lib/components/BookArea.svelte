@@ -24,12 +24,18 @@
   const alt = `${title} by ${author}`;
   const setStyle = recommended ? recommendedStyle : defaultStyle;
 
-  let pinned = $derived.by(() => page.state.title === title);
-  // $inspect({ title, pinned });
+  let pinned = $derived.by(() => snake_case(page.state.title ?? "") === slug);
+  onMount(() => {
+    const _hash = globalThis.location?.hash ?? "";
+    if (!page.state.title && _hash && _hash === href) {
+      console.log("should pushstate", { title });
+      tick().then(() => pushState(href, { title }));
+    }
+  });
   $effect(() => {
     if (pinned) {
       console.log("pinned", title);
-      sideStore.set(side);
+      sideStore.set(side as Snippet);
     } // else, other books/hover areas clear the title, etc.
   });
 

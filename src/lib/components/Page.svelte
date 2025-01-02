@@ -8,7 +8,7 @@
   import BookArea from "./BookArea.svelte";
   import { defaultStyle, snake_case, type Book, type Coords } from "$lib/utils";
   import { writable } from "svelte/store";
-  import { pushState } from "$app/navigation";
+  import { goto, pushState } from "$app/navigation";
   import HamburgerNav from "./HamburgerNav.svelte";
   import { page } from "$app/state";
   const {
@@ -63,6 +63,11 @@
         setStyle={defaultStyle}
         coords={shape}
         href={base + (href || "#TODO")}
+        onclick={(e) => {
+          e.preventDefault();
+          console.log("pushing state", { title });
+          goto(base + href, { state: { title } });
+        }}
         {title}
       />
     {/each}
