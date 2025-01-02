@@ -8,13 +8,16 @@ export default defineConfig({
   branch,
 
   // Get this from tina.io
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
-  // Get this from tina.io
-  token: process.env.TINA_TOKEN,
-
+  // clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
+  // // Get this from tina.io
+  // token: process.env.TINA_TOKEN,
+  // contentApiUrlOverride: "http://homelab-u0:4000/api/tina",
+  
   build: {
     outputFolder: "admin",
     publicFolder: "static",
+    host: "0.0.0.0",
+    basePath: "/",
   },
   media: {
     tina: {
@@ -64,7 +67,7 @@ export default defineConfig({
             type: "boolean",
             name: "recommended",
             label: "Recommended",
-          }
+          },
         ],
       },
       {

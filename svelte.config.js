@@ -18,7 +18,7 @@ const config = {
   },
 
   extensions: [".svelte"],
-  compilerOptions: { runes: true, modernAst: true },
+  // compilerOptions: { runes: true },
 };
 
 export default config;
