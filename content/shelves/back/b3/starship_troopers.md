@@ -3,3 +3,6 @@ shape: [[1502,1111],[1499,1115],[1501,1133],[1501,1230],[1503,1259],[1502,1272],
 author: Robert A. Heinlen
 title: Starship Troopers
 ---
+
+Unusually, [the movie](https://www.imdb.com/title/tt0120201/) is way better than the book.
+This is likely due to the writers having no idea that the book existed until someone suggested using the title to get studios interested.

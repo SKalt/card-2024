@@ -5,3 +5,9 @@ shape: [[1537,598],[1497,599],[1471,602],[1410,605],[1405,607],[1391,607],[1386,
 recommended: true
 ---
 FANTASTIC.  I keep saying I need to re-read this book, but I keep picking up other new ones instead.  Maybe I'll read again in 2025.  The Amazon TV series by the same name is also excellent.  Would recommend reading the book first though.  It's follows the friendship between an angel and demon who are tasked with stopping/starting the apocalypse.  - Emma 
+
+---
+
+One of the funniest ends to the world since the Hitchiker's Guide to the Galaxy.
+
+The TV show was pretty faithful to this one! - Steven

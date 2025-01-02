@@ -3,3 +3,5 @@ shape: [[1585,991],[1571,998],[1566,998],[1496,1042],[1502,1104],[1557,1106],[15
 author: Larry Niven
 title: Ringworld
 ---
+
+Larry Niven manages to combine the best of SF's thinking big -- solar-system sized engineering, galaxy-sized natural phenomena -- with everything being the main character's girlfriend's fault. 3/10; just play Halo instead if you want a story that happens on a big space station. - Steven

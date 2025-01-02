@@ -3,3 +3,5 @@ shape: [[988,656],[981,662],[976,677],[971,698],[970,714],[966,724],[962,742],[9
 author: Vernor Vinge
 title: A Deepness in the Sky
 ---
+
+This fills out the backstory of a space pirate in _A Fire Upon the Deep_.
