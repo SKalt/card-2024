@@ -1,0 +1,1 @@
+import{F as t}from"./runtime.BLTbdMJA.js";import{u as e,s as a,p as r}from"./entry.BMKkJ--k.js";t();const u={get data(){return r.data},get error(){return r.error},get form(){return r.form},get params(){return r.params},get route(){return r.route},get state(){return r.state},get status(){return r.status},get url(){return r.url}};a.updated.check;const g=u;export{g as p};
