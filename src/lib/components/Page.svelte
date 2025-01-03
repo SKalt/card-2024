@@ -119,6 +119,9 @@
       >
       {@render _sideState?.()}
     {/if}
+    <br />
+    <hr />
+    <br />
   </div>
 </div>
 
@@ -162,8 +165,5 @@
   }
   .sidebar button {
     float: right;
-  }
-  ul.book-list {
-    margin-bottom: 2em;
   }
 </style>

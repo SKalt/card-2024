@@ -10,12 +10,12 @@ export default defineConfig({
   //     exclude: [".direnv"], //.map((f) => path.resolve(__dirname, f))
   //   },
   // },
-  // server: {
-  //   fs: {
-  //     allow: ["content"],
-  //   },
-  //   watch: {
-  //     ignored: [".direnv"],
-  //   },
-  // },
+  server: {
+    fs: {
+      allow: ["content"],
+    },
+    //   watch: {
+    //     ignored: [".direnv"],
+    //   },
+  },
 });
