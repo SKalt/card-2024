@@ -10,6 +10,4 @@ Bought to honor Baltimore's patron writer. _The Raven_ is a great poem, and _Cas
 >
 > -- [Wikipedia](https://en.wikipedia.org/wiki/Edgar_Allan_Poe#:~:text=poe's%20work%20also%20influenced%20writings%20that%20would%20eventually%20come%20to%20be%20called%20%22science%20fiction%22%2C%20notably%20the%20works%20of%20jules%20verne%2C%20who%20wrote%20a%20sequel%20to%20poe's%20novel%20the%20narrative%20of%20arthur%20gordon%20pym%20of%20nantucket%20)
 
-, which was   - Steven.
-
 See also: [_Hark! A Vagrant_'s depiction of Verne/Poe's relationship](http://www.harkavagrant.com/index.php?id=213)
