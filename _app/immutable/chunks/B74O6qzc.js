@@ -1,0 +1,1 @@
+import{l as o,o as _,q as c,E as d,v as y,H as E,w as T,x as b,y as f}from"./DWiZYpet.js";import{B as p}from"./BG0pl2PY.js";function m(t,i,l=!1){_&&c();var e=new p(t),u=l?d:0;function n(a,r){if(_){const h=y(t)===E;if(a===h){var s=T();b(s),e.anchor=s,f(!1),e.ensure(a,r),f(!0);return}}e.ensure(a,r)}o(()=>{var a=!1;i((r,s=!0)=>{a=!0,n(s,r)}),a||n(!1,null)},u)}export{m as i};

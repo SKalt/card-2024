@@ -1,0 +1,1 @@
+import{a0 as t}from"./DWiZYpet.js";import{s as r,p as e}from"./CqWMDBEw.js";t();const a={get error(){return e.error},get state(){return e.state},get status(){return e.status}};r.updated.check;const p=a;export{p};
