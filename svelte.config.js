@@ -19,6 +19,7 @@ const config = {
       //
       handleMissingId: "warn",
     },
+    csp: {mode: "auto"},
   },
 
   extensions: [".svelte"],
