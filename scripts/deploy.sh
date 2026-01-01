@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-pnpm build 
+pnpm build
+rm -rf ./dist/* 
 mv ./build/* ./dist 
 rm -rf ./build 
 cd ./dist 

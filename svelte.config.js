@@ -19,7 +19,7 @@ const config = {
       //
       handleMissingId: "warn",
     },
-    csp: {mode: "auto"},
+    csp: {mode: "hash"},
   },
 
   extensions: [".svelte"],
